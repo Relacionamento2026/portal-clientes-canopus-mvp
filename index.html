@@ -40,11 +40,16 @@
   .brand .txt span{font-size:10.5px;color:var(--turq);display:block;margin-top:3px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600}
   .nav{list-style:none;margin-top:4px;overflow-y:auto;flex:1}
   .nav li{margin:1px 0}
-  .nav button{width:100%;display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;color:#aec5d0;font-size:14px;text-align:left;transition:.15s}
+  .nav-sec{font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#5a7a8a;padding:14px 12px 6px;margin-top:4px}
+  .nav button{width:100%;display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;color:#aec5d0;font-size:14px;text-align:left;transition:background .18s ease,color .18s ease,transform .12s ease;position:relative}
   .nav button:hover{background:rgba(255,255,255,.06);color:#fff}
-  .nav button.on{background:var(--navy);color:#fff;font-weight:600;box-shadow:inset 3px 0 0 var(--turq)}
-  .nav .ic{width:22px;text-align:center;font-size:18px;opacity:.95;display:grid;place-items:center}
+  .nav button:hover .ic{transform:scale(1.08)}
+  .nav button.on{background:linear-gradient(90deg,rgba(0,210,196,.14),rgba(255,255,255,.03));color:#fff;font-weight:600}
+  .nav button.on::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:0 3px 3px 0;background:var(--turq)}
+  .nav button.on .ic{color:var(--turq);opacity:1}
+  .nav .ic{width:22px;text-align:center;font-size:18px;opacity:.95;display:grid;place-items:center;transition:transform .18s ease}
   .nav .badge{margin-left:auto;background:var(--turq);color:var(--navy);font-size:10.5px;font-weight:800;padding:1px 8px;border-radius:20px}
+  .nav .badge-new{background:#f2d478;color:#3a2e00;text-transform:uppercase;letter-spacing:.4px;font-size:9px;padding:2px 7px}
   .side-foot{border-top:1px solid rgba(255,255,255,.09);padding-top:14px;margin-top:8px}
   .side-foot .who{display:flex;align-items:center;gap:11px;padding:4px 8px}
   .side-foot .av{width:34px;height:34px;border-radius:50%;background:var(--turq);display:grid;place-items:center;color:var(--navy);font-weight:800;font-size:13px}
@@ -284,6 +289,85 @@
   .mobnav button.on .mi{color:var(--turq-dk)}
   .mobnav .mdot{position:absolute;top:2px;right:calc(50% - 16px);width:7px;height:7px;background:var(--turq);border-radius:50%}
   /* Valor atual da unidade — card destacado */
+  /* ===== REPASSE / ESCRITURA ===== */
+  .repasse-hero{background:linear-gradient(135deg,var(--navy),#014a63);border-radius:var(--radius);padding:18px 22px;display:flex;align-items:center;gap:16px;color:#fff;box-shadow:var(--shadow);margin-bottom:16px}
+  .rh-badge{background:var(--turq);color:var(--navy);font-size:12px;font-weight:800;padding:6px 14px;border-radius:20px;flex-shrink:0}
+  .rh-txt{flex:1}.rh-txt b{font-size:15px;display:block}.rh-txt span{font-size:12.5px;color:#b8d4dd}
+  .rh-pct{font-size:26px;font-weight:800;font-family:var(--font-display)}
+  .split-row{display:flex;gap:20px;flex-wrap:wrap}
+  .split-part{flex:1;min-width:200px}
+  .sp-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+  .sp-top span{font-size:12.5px;color:var(--ink-soft)}
+  .sp-top b{font-size:16px;color:var(--navy);font-family:var(--font-display)}
+  .sp-bar{height:8px;background:#e5edf1;border-radius:5px;overflow:hidden}
+  .sp-fill{height:100%;border-radius:5px}
+  .sp-fill.go{background:linear-gradient(90deg,var(--go),#2bbd82)}
+  .sp-fill.turq{background:linear-gradient(90deg,var(--turq),var(--turq-dk))}
+  .sp-meta{font-size:11.5px;color:var(--ink-faint);margin-top:7px}
+  /* ===== PERSONALIZAÇÃO ===== */
+  .pers-intro{display:flex;gap:14px;align-items:flex-start;background:var(--turq-soft);border-radius:14px;padding:16px 18px;margin-bottom:20px}
+  .pers-intro b{font-size:14.5px;color:var(--navy);display:block}
+  .pers-intro span{font-size:13px;color:var(--ink-soft);line-height:1.5}
+  .planta-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .planta-card{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer;box-shadow:var(--shadow);transition:box-shadow .25s ease,transform .2s ease,border-color .2s ease}
+  .planta-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-3px);border-color:var(--turq)}
+  .planta-card.rec{border-color:var(--turq)}
+  .planta-rec{position:absolute;top:12px;right:12px;z-index:2;background:var(--turq);color:var(--navy);font-size:10.5px;font-weight:800;padding:4px 11px;border-radius:20px}
+  .planta-visual{height:130px;background:#eef3f6;display:grid;place-items:center;padding:14px;border-bottom:1px solid var(--line)}
+  .planta-body{padding:16px 18px}
+  .planta-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .planta-top b{font-size:15.5px;color:var(--navy);font-family:var(--font-display)}
+  .planta-tag{font-size:10.5px;font-weight:700;color:var(--turq-dk);background:var(--turq-soft);padding:3px 10px;border-radius:20px}
+  .planta-desc{font-size:12.5px;color:var(--ink-soft);line-height:1.5;margin-top:8px;min-height:38px}
+  .planta-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+  .planta-custo{font-size:13px;font-weight:700;color:var(--navy)}
+  .planta-link{font-size:12.5px;font-weight:700;color:var(--turq-dk)}
+  .planta-visual-big{height:180px;background:#eef3f6;border-radius:12px;display:grid;place-items:center;padding:20px}
+  .planta-itens{margin:8px 0 0;padding-left:18px}
+  .planta-itens li{font-size:13.5px;color:var(--ink-soft);margin:5px 0}
+  .contrato-preview{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:18px 20px;font-size:13px;color:var(--ink-soft);line-height:1.7}
+  .contrato-preview p{margin:4px 0}
+  .cp-head{font-size:14px;color:var(--navy);border-bottom:2px solid var(--turq);padding-bottom:8px;margin-bottom:12px}
+  .cp-head b{font-size:16px}
+  .assinatura-check{display:flex;align-items:flex-start;gap:10px;margin-top:16px;font-size:13px;color:var(--ink-soft);cursor:pointer;line-height:1.5}
+  .assinatura-check input{width:17px;height:17px;margin-top:1px;accent-color:var(--turq);flex-shrink:0}
+  @media(max-width:880px){.planta-grid{grid-template-columns:1fr}.split-row{flex-direction:column;gap:16px}}
+  /* ===== LAUDO E REPASSE ===== */
+  .laudo-cta{background:var(--bg);border:1px dashed var(--line);border-radius:12px;padding:14px 16px;margin-top:14px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  .lc-txt b{font-size:13.5px;color:var(--navy);display:block}
+  .lc-txt span{font-size:12px;color:var(--ink-soft)}
+  .lc-btns{display:flex;gap:8px;flex-wrap:wrap}
+  .laudos{margin-top:14px;display:flex;flex-direction:column;gap:12px}
+  .laudo{border-radius:12px;padding:16px;border:1px solid var(--line)}
+  .laudo.ap{background:var(--go-soft);border-color:#b6e2cc}
+  .laudo.rp{background:var(--wait-soft);border-color:#f0dcae}
+  .laudo-head{display:flex;align-items:center;gap:12px}
+  .laudo-ic{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:16px;color:#fff;flex-shrink:0}
+  .laudo.ap .laudo-ic{background:var(--go)}
+  .laudo.rp .laudo-ic{background:var(--wait)}
+  .laudo-head b{font-size:14px;color:var(--navy);display:block}
+  .laudo-head span{font-size:12px;color:var(--ink-soft)}
+  .laudo-head .tag{margin-left:auto}
+  .laudo-itens{margin-top:12px;background:rgba(255,255,255,.6);border-radius:9px;padding:10px 14px}
+  .laudo-itens ul{margin:6px 0 0;padding-left:18px}
+  .laudo-itens li{font-size:13px;color:var(--ink-soft);margin:3px 0}
+  .repasse-box{margin-top:16px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow-soft)}
+  .rp-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .rp-badge{font-size:12px;font-weight:800;color:#fff;background:var(--navy);padding:5px 13px;border-radius:20px}
+  .rp-head span{font-size:12px;color:var(--ink-faint)}
+  .rp-intro{font-size:13px;color:var(--ink-soft);line-height:1.6;margin-bottom:12px}
+  .rp-req{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--go);background:var(--go-soft);border-radius:9px;padding:9px 13px;margin-bottom:16px}
+  .rp-req b{color:var(--navy)}
+  .rp-steps{display:flex;flex-direction:column;gap:2px}
+  .rp-step{display:flex;gap:13px;padding-bottom:14px;position:relative}
+  .rp-step::before{content:"";position:absolute;left:12px;top:26px;bottom:-2px;width:2px;background:var(--line)}
+  .rp-step:last-child::before{display:none}
+  .rp-mark{width:26px;height:26px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;font-size:12px;font-weight:700;background:var(--bg);color:var(--ink-faint);border:2px solid var(--line);z-index:1}
+  .rp-step.done .rp-mark{background:var(--go);color:#fff;border-color:var(--go)}
+  .rp-step.now .rp-mark{background:var(--turq);color:var(--navy);border-color:var(--turq)}
+  .rp-body b{font-size:13.5px;color:var(--navy);font-weight:600}
+  .rp-step.future .rp-body b{color:var(--ink-faint);font-weight:500}
+  .rp-body p{font-size:12.5px;color:var(--ink-soft);margin-top:3px;line-height:1.5}
   /* ===== COMUNICADOS COM IMPACTO ===== */
   .com-feature{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;cursor:pointer;margin-bottom:20px;transition:box-shadow .25s ease,transform .2s ease}
   .com-feature:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px)}
@@ -645,14 +729,19 @@
     </div>
     <ul class="nav" id="nav">
       <li><button data-v="home" class="on"><span class="ic" data-ico="home"></span> Início</button></li>
-      <li><button data-v="vistoria"><span class="ic" data-ico="key"></span> Minha Entrega <span class="badge" id="badge-vist">1</span></button></li>
-      <li><button data-v="financeiro"><span class="ic" data-ico="money"></span> Financeiro</button></li>
-      <li><button data-v="financiamento"><span class="ic" data-ico="bank"></span> Financiamento</button></li>
+      <li class="nav-sec">Minha unidade</li>
+      <li><button data-v="vistoria"><span class="ic" data-ico="key"></span> Minha entrega <span class="badge" id="badge-vist">1</span></button></li>
       <li><button data-v="obra"><span class="ic" data-ico="build"></span> Evolução da obra</button></li>
+      <li><button data-v="personalizacao"><span class="ic" data-ico="grid"></span> Personalização <span class="badge badge-new" id="badge-pers">novo</span></button></li>
+      <li class="nav-sec">Financeiro e documentos</li>
+      <li><button data-v="financeiro"><span class="ic" data-ico="money"></span> Financeiro</button></li>
+      <li><button data-v="financiamento"><span class="ic" data-ico="bank"></span> Repasse e escritura</button></li>
       <li><button data-v="docs"><span class="ic" data-ico="doc"></span> Documentos</button></li>
+      <li class="nav-sec">Suporte</li>
       <li><button data-v="assist"><span class="ic" data-ico="wrench"></span> Assistência técnica</button></li>
       <li><button data-v="atend"><span class="ic" data-ico="chat"></span> Atendimento</button></li>
       <li><button data-v="comunicados"><span class="ic" data-ico="bell"></span> Comunicados</button></li>
+      <li class="nav-sec">Conta</li>
       <li><button data-v="cadastro"><span class="ic" data-ico="user"></span> Meus dados</button></li>
       <li><button data-v="ajuda"><span class="ic" data-ico="help"></span> Ajuda e FAQ</button></li>
     </ul>
@@ -694,7 +783,7 @@
         <div class="demobar">
           <div class="dlab"><svg class="i" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4-6.3-4.6L5.7 21.4 8 14 2 9.4h7.6z"/></svg> Modo demonstração — visão da equipe (não aparece para o cliente)</div>
           <div class="simbtns" id="simbtns">
-            <button data-s="0">Em preparação</button><button data-s="1">Vistoria liberada</button><button data-s="2">Vistoria agendada</button><button data-s="3">Vistoria aprovada</button><button data-s="4">Preparando escritura</button><button data-s="5">Chaves liberadas</button>
+            <button data-s="0">Em preparação</button><button data-s="1">Vistoria liberada</button><button data-s="2">Vistoria agendada</button><button data-s="3">Reprovada (em correção)</button><button data-s="4">Liberada p/ revistoria</button><button data-s="5">Vistoria aprovada</button><button data-s="6">Processo de repasse</button><button data-s="7">Chaves liberadas</button>
           </div>
           <div class="hint">Use estes botões para simular como a tela do cliente muda conforme o status avança no Multivista.</div>
         </div>
@@ -723,10 +812,17 @@
       </section>
 
       <section class="view" id="v-financiamento">
-        <div class="eyebrow">Financiamento bancário</div>
-        <h2 class="title">Meu financiamento</h2>
-        <p class="sub">Acompanhe cada etapa do seu processo de financiamento. Nossa equipe atualiza o andamento aqui conforme o banco avança na análise.</p>
+        <div class="eyebrow" id="rep-eyebrow">Repasse e escritura</div>
+        <h2 class="title" id="rep-title">Repasse e escritura</h2>
+        <p class="sub" id="rep-sub">Acompanhe as etapas finais até a entrega das chaves, conduzidas pelo nosso time de Repasse.</p>
         <div id="financ-body"></div>
+      </section>
+
+      <section class="view" id="v-personalizacao">
+        <div class="eyebrow">Personalização da sua unidade</div>
+        <h2 class="title">Escolha da planta</h2>
+        <p class="sub">Personalize o layout da sua unidade antes do início da obra. Escolha uma das plantas disponíveis e assine o contrato de personalização diretamente pelo portal.</p>
+        <div id="pers-body"></div>
       </section>
 
       <section class="view" id="v-obra">
@@ -823,6 +919,7 @@ const IMG={"canteiro": "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAkGBwgHBgkIBwgKCgkLDRYP
 /* ===== ÍCONES ===== */
 const ICONS={
   home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',
+  grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
   key:'<circle cx="8" cy="8" r="4"/><path d="M11 11l8 8m-3-3l2-2m-4 0l2-2"/>',
   money:'<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>',
   bank:'<path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"/>',
@@ -859,16 +956,24 @@ let PROFILE={nome:"João Silva",cpf:"•••.•••.789-00",email:"joao.sil
 
 /* ===== DADOS ===== */
 const meses=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
-function genParcelas(total,pagas,base,startISO){
-  const arr=[],start=new Date(startISO);
-  for(let i=0;i<total;i++){const d=new Date(start);d.setMonth(d.getMonth()+i);
+function genParcelas(total,pagas,base,dayOfMonth){
+  // Ancorado na data ATUAL: a parcela em aberto vence neste mês (dia dayOfMonth).
+  // As pagas ficam nos meses anteriores; as futuras nos próximos.
+  const arr=[],hoje=new Date();
+  const dia=dayOfMonth||10;
+  for(let i=0;i<total;i++){
+    // offset em meses relativo à parcela em aberto (índice = pagas)
+    const off=i-pagas;
+    const d=new Date(hoje.getFullYear(),hoje.getMonth()+off,dia);
     const venc=`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
     const val=base+Math.round(i*base*0.006);let situ,pag="—";
-    if(i<pagas){situ="paga";const pd=new Date(d);pd.setDate(pd.getDate()-1);pag=`${String(pd.getDate()).padStart(2,'0')}/${String(pd.getMonth()+1).padStart(2,'0')}/${pd.getFullYear()}`;}
+    if(i<pagas){situ="paga";const pd=new Date(d);pd.setDate(pd.getDate()-2);pag=`${String(pd.getDate()).padStart(2,'0')}/${String(pd.getMonth()+1).padStart(2,'0')}/${pd.getFullYear()}`;}
     else if(i===pagas)situ="aberto";else situ="futura";
     arr.push({n:`${i+1}/${total}`,mes:`${meses[d.getMonth()]}/${d.getFullYear()}`,venc,pag,val,situ});}
   return arr;
 }
+// dias entre hoje e uma data DD/MM/AAAA
+function diasAte(vencBR){const [d,m,a]=vencBR.split('/').map(Number);const alvo=new Date(a,m-1,d);const hoje=new Date();hoje.setHours(0,0,0,0);return Math.round((alvo-hoje)/86400000);}
 const money=v=>"R$ "+v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
 
 /* etapas de financiamento (alimentadas pelos analistas) */
@@ -888,9 +993,11 @@ const UNITS=[
   {
     id:"u1",emp:"Today Ibirapuera",torre:"Torre A",num:"1203",cidade:"Moema, São Paulo",
     logo:"today_ibira",heroImg:"hero_ibira_capa",heroBranded:true,theme:{dark:"#0a3b2e",accent:"#f2d478"},
+    aquisicao:"financiamento",
     grad:"linear-gradient(135deg,#0a3b2e,#052a20)",statusIdx:1,agend:{vistoria:null,chaves:null},
+    vistoria:{status:"liberada",laudos:[]},
     fin:{parcelaProx:"R$ 3.420,00",venceProx:"10/08/2026",diasProx:13,saldo:"R$ 184.900,00",pagas:28,total:48,forma:"Financiamento"},
-    parcelas:genParcelas(48,28,3350,"2024-01-10"),
+    parcelas:genParcelas(48,28,3350,10),
     financ:{banco:"Caixa Econômica Federal",valor:"R$ 420.000,00",stage:3,analista:"Equipe Repasse Canopus",atualizado:"há 2 dias",
       hist:[["Documentação enviada","12/06/2026","A documentação foi validada sem pendências."],["Análise de crédito","19/06/2026","Crédito aprovado pelo banco."],["Avaliação do imóvel","03/07/2026","Engenheiro do banco avaliou a unidade; laudo emitido."]]},
     obra:{pct:100,prev:"Concluída",marcos:[["Fundação",100],["Estrutura",100],["Instalações",100],["Acabamento",100],["Vistoria técnica",100]],
@@ -908,23 +1015,34 @@ const UNITS=[
   {
     id:"u2",emp:"Today Vila Clementino",torre:"Torre Única",num:"804",cidade:"Vila Clementino, São Paulo",
     logo:"today_vila",heroImg:"hero_vila_capa",heroBranded:true,theme:{dark:"#0e3b34",accent:"#c98a5e"},
+    aquisicao:"recursos",
     grad:"linear-gradient(135deg,#0e3b34,#08281f)",statusIdx:0,agend:{vistoria:null,chaves:null},
-    fin:{parcelaProx:"R$ 2.180,00",venceProx:"05/08/2026",diasProx:8,saldo:"R$ 241.300,00",pagas:14,total:60,forma:"Direto com a construtora"},
-    parcelas:genParcelas(60,14,2100,"2025-05-05"),
+    vistoria:{status:"pendente",laudos:[]},
+    fin:{parcelaProx:"R$ 2.180,00",venceProx:"05/08/2026",diasProx:8,saldo:"R$ 241.300,00",pagas:14,total:60,forma:"Recursos próprios"},
+    parcelas:genParcelas(60,14,2100,5),
     financ:{banco:"—",valor:"—",stage:-1,analista:"—",atualizado:"—",hist:[]},
-    obra:{pct:62,prev:"Previsão de entrega: 2º sem/2027",marcos:[["Fundação",100],["Estrutura",78],["Instalações",45],["Acabamento",20],["Vistoria técnica",0]],
-      fotos:[["book:hero_vila","Fachada (perspectiva)","Julho/2026"],["estrutura","Estrutura — 12º andar","Julho/2026"],["canteiro","Canteiro de obras","Junho/2026"]]},
+    obra:{pct:18,prev:"Previsão de entrega: 1º sem/2028",marcos:[["Fundação",85],["Estrutura",15],["Instalações",0],["Acabamento",0],["Vistoria técnica",0]],
+      fotos:[["book:hero_vila","Fachada (perspectiva)","Julho/2026"],["estrutura","Fundação e contenção","Julho/2026"],["canteiro","Canteiro de obras","Junho/2026"]]},
     tickets:[],
-    activity:[["build","Obra atingiu 62%","3 dias atrás","var(--go-soft)"],["money","Boleto de agosto disponível","4 dias atrás","var(--info-soft)"],["bell","Novas fotos da obra","1 semana atrás","var(--info-soft)"]],
+    activity:[["build","Fundação em andamento — obra iniciada","3 dias atrás","var(--go-soft)"],["grid","Escolha de personalização liberada","5 dias atrás","var(--turq-soft)"],["money","Boleto de agosto disponível","4 dias atrás","var(--info-soft)"]],
     comunicados:[
-      ["build","Atualização de obra — 62% concluída","3 dias atrás","A estrutura da torre avançou para 78% e a fase de acabamento foi iniciada nos primeiros pavimentos. Novas fotos do andamento já estão disponíveis na área Evolução da obra. Seguimos dentro do cronograma previsto para o 2º semestre de 2027.","Obra","alta"],
-      ["bell","Novas fotos do canteiro disponíveis","1 semana atrás","Publicamos novos registros do canteiro de obras referentes a este mês, incluindo a evolução da estrutura e das instalações. Acompanhe pela área Evolução da obra e veja de perto o progresso do seu futuro lar.","Obra","normal"],
+      ["grid","Personalização da sua unidade liberada","2 dias atrás","Chegou o momento de personalizar a sua unidade! Antes do início da fase de acabamento, você pode escolher o layout da sua planta — integrar ambientes, ampliar a suíte e mais. Acesse a área Personalização, escolha o modelo e assine o contrato pelo portal.","Personalização","alta"],
+      ["build","Obra iniciada — fundação em andamento","3 dias atrás","As obras do Today Vila Clementino foram iniciadas e a fundação está em andamento. Acompanhe a evolução pela área Evolução da obra. Previsão de entrega para o 1º semestre de 2028.","Obra","normal"],
       ["money","Boleto de agosto disponível","1 semana atrás","O boleto referente à parcela de agosto já está disponível na área Financeiro. Você também pode simular a antecipação de parcelas e reduzir seu saldo devedor diretamente pelo portal.","Financeiro","normal"],
       ["doc","Atualização cadastral anual","2 semanas atrás","Como parte da nossa política de relacionamento, pedimos que confira e atualize seus dados de contato na área Meus dados. Isso garante que você receba todos os comunicados importantes sobre a sua unidade.","Cadastro","normal"]
     ]
   }
 ];
 
+// Sincroniza os campos financeiros de resumo com a parcela em aberto real (datas dinâmicas)
+UNITS.forEach(u=>{
+  const aberto=u.parcelas.find(p=>p.situ==='aberto');
+  if(aberto){
+    u.fin.parcelaProx=money(aberto.val);
+    u.fin.venceProx=aberto.venc;
+    u.fin.diasProx=Math.max(0,diasAte(aberto.venc));
+  }
+});
 let curUnit=UNITS[0],finFilter="todas",finAll=false;
 
 /* Habite-se por unidade (base da vigência de garantia) */
@@ -958,18 +1076,46 @@ function addMonths(date,n){const d=new Date(date);d.setMonth(d.getMonth()+n);ret
 const STAGES=[
   {key:'prep',phase:0,title:'Unidade em preparação',desc:'Sua unidade passou pela inspeção técnica da construtora. Estamos finalizando os últimos detalhes antes de liberar sua vistoria.',meta:'Última atualização: há 2 dias · normalmente esta etapa leva de 5 a 10 dias.'},
   {key:'liberada',phase:1,title:'Sua vistoria está liberada',desc:'Sua unidade está pronta para você conhecer. Escolha a melhor data e horário para realizar sua vistoria.',action:{label:'Agendar minha vistoria',cls:'go',fn:'agendarVistoria'}},
-  {key:'agendada',phase:1,title:'Vistoria agendada',desc:'Tudo certo! Sua vistoria está confirmada. Você receberá um lembrete no dia anterior.',action:{label:'Reagendar',cls:'ghost',fn:'agendarVistoria'}},
-  {key:'aprovada',phase:2,title:'Vistoria aprovada',desc:'Parabéns! Você aprovou sua unidade. 🎉 O próximo passo é a liberação das chaves.',meta:'Faltam poucos passos para você receber as chaves.'},
-  {key:'escritura',phase:2,title:'Preparando a documentação',desc:'Sua unidade foi aprovada. Estamos finalizando a documentação. Assim que concluída, você poderá agendar a retirada das chaves.',meta:'Última atualização: há 1 dia.'},
+  {key:'agendada',phase:1,title:'Vistoria agendada',desc:'Tudo certo! Sua vistoria está confirmada. Você receberá um lembrete no dia anterior. Após a visita, o resultado (laudo) aparece aqui.',action:{label:'Reagendar',cls:'ghost',fn:'agendarVistoria'}},
+  {key:'reprovada',phase:1,title:'Vistoria reprovada — em correção',desc:'Você registrou apontamentos na vistoria. A construtora está corrigindo os itens do laudo. Assim que a unidade for liberada novamente, você poderá agendar a revistoria.',meta:'A equipe de obras trata os apontamentos e libera a unidade para nova vistoria.'},
+  {key:'revistoria',phase:1,title:'Unidade liberada para revistoria',desc:'Os apontamentos foram corrigidos e sua unidade está liberada para uma nova vistoria. Agende a revistoria para conferir e aprovar.',action:{label:'Agendar revistoria',cls:'go',fn:'agendarVistoria'}},
+  {key:'aprovada',phase:2,title:'Vistoria aprovada',desc:'Parabéns! Você aprovou sua unidade. 🎉 Agora seguimos para as etapas finais antes da entrega das chaves, conduzidas pelo time de Repasse.',meta:'Faltam poucos passos para você receber as chaves.'},
+  {key:'processo',phase:2,title:'Etapas finais para as chaves',desc:'Sua unidade foi aprovada. O time de Repasse está conduzindo as etapas finais junto a você. Acompanhe abaixo o momento exato do seu processo.',meta:'Última atualização: há 1 dia.'},
   {key:'chaves',phase:3,title:'Chaves liberadas!',desc:'Chegou a hora! 🔑 Suas chaves estão liberadas para retirada. Escolha uma data e horário.',action:{label:'Agendar retirada de chaves',cls:'go',fn:'agendarChaves'}}
 ];
+// Etapas conduzidas pelo time de Repasse — dependem da forma de aquisição
+const REPASSE={
+  financiamento:{
+    titulo:"Financiamento bancário",
+    intro:"Como sua aquisição é por financiamento, você retira as chaves após a vistoria aprovada e o contrato de financiamento registrado. O time de Repasse assessora você junto ao banco escolhido.",
+    req:"Vistoria aprovada + contrato de financiamento registrado",
+    etapas:[
+      ["Documentação enviada","Seus documentos e os do vendedor foram recebidos e conferidos pela nossa equipe."],
+      ["Análise de crédito","O banco escolhido está avaliando seu perfil de crédito e capacidade de pagamento."],
+      ["Avaliação do imóvel","O engenheiro do banco avalia a unidade e emite o laudo de avaliação."],
+      ["Aprovação do financiamento","O banco aprova o valor financiado e as condições do contrato."],
+      ["Assinatura do contrato","Assinatura do contrato de financiamento na agência/cartório."],
+      ["Registro do contrato","Registro do contrato em cartório — última etapa antes da liberação das chaves."]
+    ]},
+  recursos:{
+    titulo:"Escrituração (recursos próprios)",
+    intro:"Como sua aquisição é com recursos próprios, você retira as chaves após a vistoria aprovada e a escritura lavrada e registrada. O time de Repasse conduz o processo de escrituração com você.",
+    req:"Vistoria aprovada + escritura lavrada e registrada",
+    etapas:[
+      ["Quitação confirmada","Confirmamos a quitação integral do valor da unidade."],
+      ["Documentação para escritura","Reunimos e conferimos a documentação necessária para a lavratura da escritura."],
+      ["Minuta da escritura","A minuta da escritura é elaborada e enviada para sua conferência."],
+      ["Lavratura em cartório","A escritura pública é lavrada e assinada no cartório de notas."],
+      ["Registro no cartório de imóveis","A escritura é registrada no cartório de registro de imóveis — última etapa antes das chaves."]
+    ]}
+};
 const MARKS=[["Unidade em preparação","Inspeção técnica da construtora."],["Vistoria","Você conhece e aprova sua unidade."],["Aprovação e documentação","Últimas etapas antes das chaves."],["Entrega das chaves","Sua unidade é oficialmente sua."]];
 const JMARK=["Compra","Obra","Vistoria e entrega","Pós-chaves"];
 const TAKEN_VIST={0:['09:00','14:00'],1:['10:00'],2:['08:00','09:00','15:00'],3:[],4:['11:00','16:00']};
 const TAKEN_KEYS={0:['10:00'],1:['09:00','10:00','11:00'],2:['14:00'],3:['15:00'],4:[]};
 
 /* ===== NAV ===== */
-const titles={home:"Início",vistoria:"Minha entrega",financeiro:"Financeiro",financiamento:"Financiamento",obra:"Evolução da obra",docs:"Documentos",assist:"Assistência técnica",atend:"Atendimento",comunicados:"Comunicados",cadastro:"Meus dados",ajuda:"Ajuda e FAQ"};
+const titles={home:"Início",vistoria:"Minha entrega",financeiro:"Financeiro",financiamento:"Repasse e escritura",personalizacao:"Personalização",obra:"Evolução da obra",docs:"Documentos",assist:"Assistência técnica",atend:"Atendimento",comunicados:"Comunicados",cadastro:"Meus dados",ajuda:"Ajuda e FAQ"};
 function go(v){document.querySelectorAll('.view').forEach(s=>s.classList.remove('on'));document.getElementById('v-'+v).classList.add('on');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));document.querySelectorAll('#mobnav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));document.getElementById('tb-title').textContent=titles[v];document.querySelector('.content').scrollTop=0;}
 document.querySelectorAll('#nav button,#mobnav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.v)));
 
@@ -1017,9 +1163,12 @@ function renderHome(){
 
   // 2) PRECISA DE VOCÊ (ações pendentes — só o que exige atenção)
   let pend=[];
-  if(u.statusIdx===1)pend.push({ic:'key',cls:'go',tit:'Sua vistoria está liberada',desc:'Sua unidade está pronta para você conhecer.',btn:'Agendar vistoria',fn:"go('vistoria')"});
-  else if(u.statusIdx===2)pend.push({ic:'calendar',cls:'info',tit:'Vistoria agendada',desc:fmtAgend(u.agend.vistoria)+' · lembrete no dia anterior.',btn:'Ver detalhes',fn:"go('vistoria')"});
-  else if(u.statusIdx===5&&!u.agend.chaves)pend.push({ic:'key',cls:'go',tit:'Suas chaves estão liberadas!',desc:'Agende a retirada das chaves da sua unidade.',btn:'Agendar retirada',fn:"go('vistoria')"});
+  const skey=STAGES[u.statusIdx].key;
+  if(skey==='liberada')pend.push({ic:'key',cls:'go',tit:'Sua vistoria está liberada',desc:'Sua unidade está pronta para você conhecer.',btn:'Agendar vistoria',fn:"go('vistoria')"});
+  else if(skey==='agendada')pend.push({ic:'calendar',cls:'info',tit:'Vistoria agendada',desc:fmtAgend(u.agend.vistoria)+' · registre o resultado após a visita.',btn:'Ver detalhes',fn:"go('vistoria')"});
+  else if(skey==='reprovada')pend.push({ic:'key',cls:'wait',tit:'Vistoria reprovada — em correção',desc:'A construtora está corrigindo os apontamentos. Avisaremos para a revistoria.',btn:'Acompanhar',fn:"go('vistoria')"});
+  else if(skey==='revistoria')pend.push({ic:'key',cls:'go',tit:'Unidade liberada para revistoria',desc:'Os apontamentos foram corrigidos. Agende a revistoria.',btn:'Agendar revistoria',fn:"go('vistoria')"});
+  else if(skey==='chaves'&&!u.agend.chaves)pend.push({ic:'key',cls:'go',tit:'Suas chaves estão liberadas!',desc:'Agende a retirada das chaves da sua unidade.',btn:'Agendar retirada',fn:"go('vistoria')"});
   const aberto=u.parcelas.find(p=>p.situ==='aberto');
   if(aberto)pend.push({ic:'money',cls:'wait',tit:`Próximo boleto: ${money(aberto.val)}`,desc:`Parcela ${aberto.n} · vence em ${u.fin.diasProx} dias (${aberto.venc}).`,btn:'Baixar boleto',fn:"go('financeiro')"});
   let pendHtml='';
@@ -1064,25 +1213,97 @@ function renderHome(){
 }
 
 /* ===== VISTORIA ===== */
-function renderVistoria(){const u=curUnit;document.querySelectorAll('#simbtns button').forEach(b=>b.classList.toggle('on',+b.dataset.s===u.statusIdx));renderJourney(u.statusIdx);const anyVist=UNITS.some(x=>x.statusIdx===1);document.getElementById('badge-vist').style.display=anyVist?'':'none';document.getElementById('mob-dot').style.display=anyVist?'':'none';}
+function renderVistoria(){const u=curUnit;document.querySelectorAll('#simbtns button').forEach(b=>b.classList.toggle('on',+b.dataset.s===u.statusIdx));renderJourney(u.statusIdx);const anyVist=UNITS.some(x=>['liberada','revistoria','chaves'].includes(STAGES[x.statusIdx].key)&&!(STAGES[x.statusIdx].key==='chaves'&&x.agend.chaves));document.getElementById('badge-vist').style.display=anyVist?'':'none';document.getElementById('mob-dot').style.display=anyVist?'':'none';}
 function fmtAgend(a){return a?`<svg class="i" viewBox="0 0 24 24" style="width:14px;height:14px;vertical-align:-2px;color:var(--turq-dk)"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg> ${a.diaLabel} às ${a.hora}`:'';}
 function renderJourney(stageIdx){
   const u=curUnit,st=STAGES[stageIdx],cur=st.phase;let html='';
   MARKS.forEach((m,i)=>{const cls=i<cur?'done':i===cur?'now':'future';const mark=i<cur?'✓':(i+1);let extra='';
     if(i===cur){extra=`<div class="jnow-badge">Etapa atual</div><b>${st.title}</b><p>${st.desc}</p>`;
       if(st.key==='agendada'&&u.agend.vistoria)extra+=`<div class="meta">${fmtAgend(u.agend.vistoria)} · Unidade ${u.num}</div>`;
+      else if(st.key==='revistoria'&&u.agend.vistoria)extra+=`<div class="meta">${fmtAgend(u.agend.vistoria)} · Unidade ${u.num}</div>`;
       else if(st.key==='chaves'&&u.agend.chaves)extra+=`<div class="meta">Retirada agendada: ${fmtAgend(u.agend.chaves)}</div>`;
       else if(st.meta)extra+=`<div class="meta">${st.meta}</div>`;
       if(st.action){extra+=`<div class="act"><button class="btn ${st.action.cls} sm" onclick="${st.action.fn}()">${st.action.label}</button>`;
         if(st.key==='chaves'&&u.agend.chaves)extra+=`<button class="btn ghost sm" onclick="verEmail('chaves')">Ver e-mail de confirmação</button>`;
-        if(st.key==='agendada'&&u.agend.vistoria)extra+=`<button class="btn ghost sm" onclick="verEmail('vistoria')">Ver e-mail de confirmação</button>`;
+        if((st.key==='agendada'||st.key==='revistoria')&&u.agend.vistoria)extra+=`<button class="btn ghost sm" onclick="verEmail('vistoria')">Ver e-mail de confirmação</button>`;
         extra+=`</div>`;}
+      // Após a vistoria agendada/revistoria: registrar o resultado (laudo)
+      if((st.key==='agendada'||st.key==='revistoria')&&u.agend.vistoria){
+        extra+=`<div class="laudo-cta"><div class="lc-txt"><b>Já realizou a vistoria?</b><span>Registre o resultado. Você pode aprovar ou apontar itens a corrigir.</span></div><div class="lc-btns"><button class="btn go sm" onclick="registrarLaudo('aprovada')">Aprovar unidade</button><button class="btn ghost sm" onclick="registrarLaudo('reprovada')">Registrar apontamentos</button></div></div>`;
+      }
+      // Laudos emitidos (histórico)
+      if(u.vistoria&&u.vistoria.laudos&&u.vistoria.laudos.length)extra+=renderLaudos(u.vistoria.laudos);
+      // Fase 2: etapas do time de Repasse conforme a forma de aquisição
+      if(cur===2)extra+=renderRepasse(u);
     }else extra=`<b>${m[0]}</b><p>${m[1]}</p>`;
     html+=`<div class="jstep ${cls}"><div class="jline"></div><div class="jmark">${mark}</div><div class="jbody">${extra}</div></div>`;});
   document.getElementById('journey').innerHTML=html;
-  document.getElementById('escal').classList.toggle('show',['liberada','agendada','chaves'].includes(st.key));
+  document.getElementById('escal').classList.toggle('show',['liberada','agendada','revistoria','chaves'].includes(st.key));
+}
+function renderLaudos(laudos){
+  return `<div class="laudos">`+laudos.map(l=>{
+    const ap=l.resultado==='aprovada';
+    return `<div class="laudo ${ap?'ap':'rp'}"><div class="laudo-head"><div class="laudo-ic">${ap?'✓':'!'}</div><div><b>Laudo de vistoria — ${ap?'Aprovado':'Reprovado'}</b><span>${l.tipo} · ${l.data}</span></div><span class="tag ${ap?'t-go':'t-danger'}">${ap?'Aprovado':'Reprovado'}</span></div>${l.itens&&l.itens.length?`<div class="laudo-itens"><span class="am-lab">Apontamentos registrados</span><ul>${l.itens.map(it=>`<li>${it}</li>`).join('')}</ul></div>`:''}<button class="btn ghost sm" style="margin-top:10px" onclick="baixarLaudo('${l.resultado}','${l.data}','${l.tipo}')"><svg class="i" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg> Baixar laudo</button></div>`;
+  }).join('')+`</div>`;
+}
+function renderRepasse(u){
+  const via=u.aquisicao==='recursos'?REPASSE.recursos:REPASSE.financiamento;
+  // progresso: usa financ.stage (0..etapas) — reaproveita o campo existente
+  const st=typeof u.financ.stage==='number'&&u.financ.stage>=0?u.financ.stage:0;
+  const etapasHtml=via.etapas.map((e,i)=>{const cls=i<st?'done':i===st?'now':'future';const mk=i<st?'✓':(i+1);
+    return `<div class="rp-step ${cls}"><div class="rp-mark">${mk}</div><div class="rp-body"><b>${e[0]}</b>${i===st?`<p>${e[1]}</p>`:''}</div></div>`;}).join('');
+  return `<div class="repasse-box">
+    <div class="rp-head"><div class="rp-badge">${u.aquisicao==='recursos'?'Recursos próprios':'Financiamento bancário'}</div><span>Conduzido pelo time de Repasse</span></div>
+    <p class="rp-intro">${via.intro}</p>
+    <div class="rp-req"><svg class="i" viewBox="0 0 24 24" style="width:15px;height:15px"><path d="M20 6L9 17l-5-5"/></svg> Para retirar as chaves: <b>${via.req}</b></div>
+    <div class="rp-steps">${etapasHtml}</div>
+  </div>`;
 }
 document.querySelectorAll('#simbtns button').forEach(b=>b.addEventListener('click',()=>{curUnit.statusIdx=+b.dataset.s;renderVistoria();renderHome();renderAssist();}));
+/* ===== LAUDO DE VISTORIA E REVISTORIA ===== */
+function hojeBR(){const h=new Date();return `${String(h.getDate()).padStart(2,'0')}/${String(h.getMonth()+1).padStart(2,'0')}/${h.getFullYear()}`;}
+function registrarLaudo(resultado){
+  const u=curUnit;const ehRevistoria=STAGES[u.statusIdx].key==='revistoria';
+  const tipo=ehRevistoria?'Revistoria':'Vistoria';
+  if(resultado==='aprovada'){
+    u.vistoria.laudos.push({resultado:'aprovada',tipo,data:hojeBR(),itens:[]});
+    u.vistoria.status='aprovada';
+    u.statusIdx=5; // vistoria aprovada
+    openModal(`<div class="modal-head"><div><h3>Unidade aprovada! ✅</h3></div><button class="x" onclick="closeModal()">✕</button></div><div class="modal-body" style="text-align:center"><div class="success-ico">✓</div><div style="font-size:17px;font-weight:800;color:var(--navy)">Laudo de ${tipo.toLowerCase()} aprovado</div><p style="font-size:13.5px;color:var(--ink-soft);margin-top:6px">Parabéns! Sua unidade foi aprovada. O time de Repasse dará andamento às etapas finais até a entrega das chaves.</p></div><div class="modal-foot"><button class="btn go" onclick="closeModal()">Ver próximos passos</button></div>`);
+  }else{
+    // reprovada — abre modal para registrar apontamentos
+    openModal(`<div class="modal-head"><div><h3>Registrar apontamentos</h3><p>${tipo} · Unidade ${u.num}</p></div><button class="x" onclick="closeModal()">✕</button></div>
+      <div class="modal-body">
+      <div class="pa-info"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v.5M12 11v5"/></svg><span>Descreva os itens que precisam de correção. A construtora tratará os apontamentos e liberará a unidade para revistoria.</span></div>
+      <span class="fieldlab">Apontamentos (um por linha)</span>
+      <textarea class="finput" id="laudo-itens" placeholder="Ex.: Infiltração no teto do banheiro&#10;Porta do quarto desalinhada&#10;Tomada da sala sem energia" style="min-height:110px"></textarea></div>
+      <div class="modal-foot"><button class="btn ghost" onclick="closeModal()">Cancelar</button><button class="btn go" onclick="confirmarReprovacao('${tipo}')">Registrar e enviar</button></div>`);
+  }
+  renderVistoria();renderHome();renderAssist();
+}
+function confirmarReprovacao(tipo){
+  const u=curUnit;const raw=(document.getElementById('laudo-itens')||{}).value||'';
+  const itens=raw.split('\n').map(s=>s.trim()).filter(s=>s);
+  if(!itens.length){toast('Descreva ao menos um apontamento.');return;}
+  u.vistoria.laudos.push({resultado:'reprovada',tipo,data:hojeBR(),itens});
+  u.vistoria.status='reprovada';
+  u.statusIdx=3; // reprovada — em correção
+  openModal(`<div class="modal-head"><div><h3>Apontamentos registrados</h3></div><button class="x" onclick="closeModal()">✕</button></div><div class="modal-body" style="text-align:center"><div class="success-ico" style="background:var(--wait)">!</div><div style="font-size:17px;font-weight:800;color:var(--navy)">Laudo de ${tipo.toLowerCase()} reprovado</div><p style="font-size:13.5px;color:var(--ink-soft);margin-top:6px">Registramos ${itens.length} apontamento(s). A construtora vai corrigir os itens e liberar sua unidade para revistoria. Você será avisado quando puder agendar a nova vistoria.</p></div><div class="modal-foot"><button class="btn" onclick="closeModal()">Entendi</button></div>`);
+  renderVistoria();renderHome();renderAssist();
+}
+function baixarLaudo(resultado,data,tipo){
+  const u=curUnit;const l=u.vistoria.laudos.find(x=>x.resultado===resultado&&x.data===data&&x.tipo===tipo);
+  const ap=resultado==='aprovada';
+  const itensHtml=l&&l.itens&&l.itens.length?`<h3 style="margin-top:18px">Apontamentos</h3><ol>${l.itens.map(it=>`<li>${it}</li>`).join('')}</ol>`:'<p style="margin-top:14px"><b>Nenhum apontamento.</b> A unidade foi aprovada sem ressalvas.</p>';
+  const html=`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Laudo de ${tipo} — ${u.emp} ${u.num}</title><style>body{font-family:Arial,sans-serif;color:#0e2430;max-width:760px;margin:30px auto;padding:0 20px;line-height:1.6}h1{color:#003349;font-size:20px;margin:0}h3{color:#00796b;font-size:14px}.turq{color:#00b3a7}.head{border-bottom:3px solid #00d2c4;padding-bottom:14px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:flex-end}.res{display:inline-block;padding:6px 16px;border-radius:8px;font-weight:bold;font-size:15px;margin:10px 0;color:#fff;background:${ap?'#1f9d6b':'#c0392b'}}.meta{font-size:13px;color:#42586a;line-height:1.7;margin-bottom:10px}ol{padding-left:20px}li{margin:5px 0}.foot{margin-top:26px;font-size:11px;color:#7c93a3;border-top:1px solid #e2e9ee;padding-top:12px}@media print{body{margin:0}}</style></head>
+  <body><div class="head"><div><h1>canopus <span class="turq">|</span> Laudo de ${tipo}</h1></div><div style="text-align:right;font-size:12px;color:#42586a">Emitido em ${data}</div></div>
+  <div class="meta"><b>Cliente:</b> ${PROFILE.nome} · <b>CPF:</b> ${PROFILE.cpf}<br><b>Empreendimento:</b> ${u.emp} — ${u.torre}<br><b>Unidade:</b> ${u.num} · ${u.cidade}</div>
+  <div class="res">${ap?'APROVADO':'REPROVADO — em correção'}</div>
+  ${itensHtml}
+  <div class="foot">Laudo de ${tipo.toLowerCase()} gerado pelo Portal do Cliente Canopus. ${ap?'A unidade foi aprovada pelo cliente.':'Os apontamentos serão tratados pela construtora, que liberará a unidade para revistoria.'}<br><br>Construtora Canopus · Relacionamento com o Cliente</div>
+  <script>window.onload=function(){setTimeout(function(){window.print&&window.print()},400)}<\/script></body></html>`;
+  downloadHTML(`Laudo_${tipo}_${u.emp.replace(/ /g,'_')}_${u.num}.html`,html);toast('Laudo gerado! Verifique seus downloads.');
+}
 
 /* ===== AGENDAMENTO ===== */
 function nextDays(n){const days=[],wd=["dom","seg","ter","qua","qui","sex","sáb"];let d=new Date();d.setDate(d.getDate()+2);let added=0,idx=0;
@@ -1105,7 +1326,7 @@ function pickDay(idx){sched.diaIdx=idx;sched.dia=sched.days.find(d=>d.idx===idx)
   document.getElementById('confirm-btn').disabled=true;
 }
 function pickSlot(s){sched.hora=s;document.querySelectorAll('.slot').forEach(el=>el.classList.toggle('sel',el.dataset.s===s&&!el.classList.contains('taken')));document.getElementById('confirm-btn').disabled=false;}
-function confirmAgenda(){const a={dia:sched.dia.full,diaLabel:sched.dia.label,hora:sched.hora};if(sched.tipo==='vistoria'){curUnit.agend.vistoria=a;curUnit.statusIdx=2;}else curUnit.agend.chaves=a;showSuccess(sched.tipo,a);renderVistoria();renderHome();}
+function confirmAgenda(){const a={dia:sched.dia.full,diaLabel:sched.dia.label,hora:sched.hora};if(sched.tipo==='vistoria'){curUnit.agend.vistoria=a;if(STAGES[curUnit.statusIdx].key==='revistoria'){/* mantém em revistoria agendada — o laudo reabre */}else{curUnit.statusIdx=2;}}else curUnit.agend.chaves=a;showSuccess(sched.tipo,a);renderVistoria();renderHome();}
 function showSuccess(tipo,a){const titulo=tipo==='vistoria'?'Vistoria agendada!':'Retirada de chaves agendada!';const linha=tipo==='vistoria'?'Sua vistoria está confirmada':'Sua retirada de chaves está confirmada';
   openModal(`<div class="modal-head"><div><h3>Pronto! ✅</h3></div><button class="x" onclick="closeModal()">✕</button></div>
     <div class="modal-body" style="text-align:center"><div class="success-ico">✓</div><div style="font-size:17px;font-weight:800;color:var(--navy)">${titulo}</div><p style="font-size:13.5px;color:var(--ink-soft);margin-top:6px">${linha} para o dia e horário escolhidos. Enviamos a confirmação para o seu WhatsApp e e-mail.</p>
@@ -1256,28 +1477,170 @@ function gerarBoletoAntecipacao(){
   closeModal();toast('Boleto de antecipação gerado! Verifique seus downloads.');
 }
 function renderFinanciamento(){
-  const u=curUnit,f=u.financ;
-  const bankCards=BANCOS.map(b=>`<div class="bankcard"><div class="banklogo" style="background:${b.cor}">${b.sigla}</div><div style="font-weight:700;color:var(--navy);font-size:14px;margin-bottom:3px">${b.nome}</div><div class="bk-desc">${b.desc}</div><button class="btn ghost sm" onclick="abrirSimulador('${b.url}','${b.nome}')">Simular financiamento →</button></div>`).join('');
-  const simSection=`<div class="card" style="margin-top:16px"><div class="sec-head"><b>Simule seu financiamento</b><span class="tag t-info">Bancos parceiros</span></div><div style="padding:18px 20px"><p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:16px">Compare condições diretamente no simulador oficial de cada banco.</p><div class="bankgrid">${bankCards}</div></div></div>`;
-  if(f.stage<0){document.getElementById('financ-body').innerHTML=`<div class="card"><div class="empty"><div class="eic"><svg class="i" viewBox="0 0 24 24" style="width:22px;height:22px;color:var(--navy)"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"/></svg></div><p>Esta unidade não está sendo adquirida via financiamento bancário.<br>Forma de aquisição: <b>${u.fin.forma}</b>.</p></div></div>`+simSection;return;}
-  const steps=financSteps(f.stage);
-  const pct=Math.round((f.stage/(steps.length-1))*100);
-  let journey=steps.map((s,i)=>{const cls=s.status;const mark=s.status==='done'?'✓':(i+1);return `<div class="jstep ${cls}"><div class="jline"></div><div class="jmark">${mark}</div><div class="jbody">${s.status==='now'?'<div class="jnow-badge">Etapa atual</div>':''}<b>${s.titulo}</b><p>${s.desc}</p>${s.status==='now'?`<div class="meta">Atualizado ${f.atualizado} por ${f.analista}</div>`:''}</div></div>`;}).join('');
-  let histHtml=f.hist.length?f.hist.map(h=>`<div class="list-row"><div class="ric" style="background:var(--go-soft)">✓</div><div class="rt"><b>${h[0]}</b><span>${h[2]}</span></div><div class="rv"><span style="font-size:12px;color:var(--ink-faint)">${h[1]}</span></div></div>`).join(''):'<div class="empty"><p>Ainda não há histórico registrado.</p></div>';
+  const u=curUnit;const ehFin=u.aquisicao!=='recursos';
+  const via=ehFin?REPASSE.financiamento:REPASSE.recursos;
+  // cabeçalho dinâmico
+  document.getElementById('rep-eyebrow').textContent=ehFin?'Repasse — financiamento bancário':'Repasse — escrituração';
+  document.getElementById('rep-title').textContent=ehFin?'Repasse e escritura':'Repasse e escritura';
+  document.getElementById('rep-sub').textContent=via.intro;
+  // estrutura 30/70
+  const saldoNum=parseFloat(u.fin.saldo.replace(/[^\d,]/g,'').replace(',','.'));
+  const pagasArr=u.parcelas.filter(p=>p.situ==='paga');const totalPago=pagasArr.reduce((s,p)=>s+p.val,0);
+  const valorTotal=Math.round((totalPago+saldoNum));
+  const parteConstru=Math.round(valorTotal*0.30);const parteRepasse=valorTotal-parteConstru;
+  const pagoConstruPct=Math.min(100,Math.round(totalPago/parteConstru*100));
+  const estrutura=`<div class="card" style="margin-bottom:16px"><div class="sec-head"><b>Como está estruturado o pagamento</b><span class="tag t-info">Tabela + repasse</span></div>
+    <div style="padding:18px 20px">
+      <p style="font-size:13px;color:var(--ink-soft);line-height:1.6;margin-bottom:16px">O valor da sua unidade é dividido em duas partes: uma paga diretamente à Canopus ao longo da obra (parcelas mensais, semestrais e anuais), que deve estar quitada até a entrega; e o saldo restante, ${ehFin?'financiado com o banco':'quitado com recursos próprios'} no momento da entrega.</p>
+      <div class="split-row">
+        <div class="split-part"><div class="sp-top"><span>Pago à Canopus (durante a obra)</span><b>~30%</b></div><div class="sp-bar"><div class="sp-fill go" style="width:${pagoConstruPct}%"></div></div><div class="sp-meta">${money(totalPago)} pagos de ${money(parteConstru)} · deve estar quitado até a entrega</div></div>
+        <div class="split-part"><div class="sp-top"><span>${ehFin?'A financiar (na entrega)':'A quitar (na entrega)'}</span><b>~70%</b></div><div class="sp-bar"><div class="sp-fill turq" style="width:0%"></div></div><div class="sp-meta">${money(parteRepasse)} · ${ehFin?'financiamento bancário':'recursos próprios'} — conduzido pelo time de Repasse</div></div>
+      </div>
+    </div></div>`;
+  // requisito para chaves
+  const reqBox=`<div class="rp-req" style="margin:0 0 16px">${ico('key','i')} Para retirar as chaves: <b>${via.req}</b></div>`.replace('width:24px;height:24px','width:15px;height:15px');
+  // etapas do processo (financiamento OU escrituração)
+  const stage=typeof u.financ.stage==='number'&&u.financ.stage>=0?u.financ.stage:0;
+  const totalEt=via.etapas.length;const pct=Math.round(stage/(totalEt-1)*100);
+  const journey=via.etapas.map((e,i)=>{const cls=i<stage?'done':i===stage?'now':'future';const mk=i<stage?'✓':(i+1);
+    return `<div class="jstep ${cls}"><div class="jline"></div><div class="jmark">${mk}</div><div class="jbody">${i===stage?'<div class="jnow-badge">Etapa atual</div>':''}<b>${e[0]}</b>${i===stage?`<p>${e[1]}</p>`:''}</div></div>`;}).join('');
+  // simulador de bancos (só para financiamento)
+  let simSection='';
+  if(ehFin){
+    const bankCards=BANCOS.map(b=>`<div class="bankcard"><div class="banklogo" style="background:${b.cor}">${b.sigla}</div><div style="font-weight:700;color:var(--navy);font-size:14px;margin-bottom:3px">${b.nome}</div><div class="bk-desc">${b.desc}</div><button class="btn ghost sm" onclick="abrirSimulador('${b.url}','${b.nome}')">Simular financiamento →</button></div>`).join('');
+    simSection=`<div class="card" style="margin-top:16px"><div class="sec-head"><b>Simule seu financiamento</b><span class="tag t-info">Bancos parceiros</span></div><div style="padding:18px 20px"><p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:16px">O financiamento é feito com o banco de sua escolha. Compare condições no simulador oficial de cada um. Nosso time de Repasse assessora você em todo o processo.</p><div class="bankgrid">${bankCards}</div></div></div>`;
+  }else{
+    simSection=`<div class="card" style="margin-top:16px"><div class="sec-head"><b>Sobre a escrituração</b></div><div style="padding:18px 20px"><p style="font-size:13.5px;color:var(--ink-soft);line-height:1.6">Como sua aquisição é com recursos próprios, após a quitação o time de Repasse conduz a lavratura e o registro da escritura. Os custos de cartório (ITBI, escritura e registro) são de responsabilidade do comprador e informados previamente. Você é avisado a cada etapa.</p></div></div>`;
+  }
+  const badge=ehFin?'Financiamento bancário':'Recursos próprios';
   document.getElementById('financ-body').innerHTML=`
-    <div class="banner info"><div class="bic"><svg class="i" viewBox="0 0 24 24" style="width:22px;height:22px;color:var(--navy)"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"/></svg></div><div><b>Financiamento com ${f.banco}</b><p>Valor financiado: ${f.valor} · Acompanhe abaixo cada etapa. Nossa equipe atualiza o andamento conforme o banco avança.</p></div></div>
-    <div class="grid g3" style="margin-bottom:16px">
-      <div class="card stat accent-turq"><div class="lab">Banco</div><div class="val" style="font-size:18px">${f.banco}</div><div class="note">Instituição financiadora</div></div>
-      <div class="card stat accent-go"><div class="lab">Valor financiado</div><div class="val" style="font-size:20px">${f.valor}</div><div class="note">Aprovado em análise</div></div>
-      <div class="card stat accent-wait"><div class="lab">Andamento</div><div class="val">${pct}%</div><div class="note">Etapa ${f.stage+1} de ${steps.length}</div></div>
-    </div>
-    <div class="card" style="margin-bottom:16px"><div class="sec-head"><b>Etapas do financiamento</b><span style="font-size:12px;color:var(--ink-faint)">Atualizado ${f.atualizado}</span></div><div style="padding:22px 24px"><div class="journey">${journey}</div></div></div>
-    <div class="card"><div class="sec-head"><b>Histórico de atualizações</b></div>${histHtml}</div>
-    <div class="foot-note">As etapas são alimentadas pela equipe de Repasse da Canopus conforme o banco avança na análise. Em caso de pendência, você é avisado por WhatsApp e e-mail.</div>`+simSection;
+    <div class="repasse-hero"><div class="rh-badge">${badge}</div><div class="rh-txt"><b>Processo conduzido pelo time de Repasse</b><span>${ehFin?`Banco: ${u.financ.banco!=='—'?u.financ.banco:'a definir pelo cliente'}`:'Quitação com recursos próprios'} · atualizado ${u.financ.atualizado!=='—'?u.financ.atualizado:'recentemente'}</span></div><div class="rh-pct">${pct}%</div></div>
+    ${estrutura}
+    ${reqBox}
+    <div class="card" style="margin-bottom:16px"><div class="sec-head"><b>${via.titulo} — etapas</b><span style="font-size:12px;color:var(--ink-faint)">Etapa ${stage+1} de ${totalEt}</span></div><div style="padding:22px 24px"><div class="journey">${journey}</div></div></div>
+    ${simSection}
+    <div class="foot-note">As etapas são alimentadas pela equipe de Repasse da Canopus. Em caso de pendência, você é avisado por WhatsApp e e-mail.</div>`;
 }
 function abrirSimulador(url,nome){openModal(`<div class="modal-head"><div><h3>Simular no ${nome}</h3><p>Você será direcionado ao simulador oficial do banco</p></div><button class="x" onclick="closeModal()">✕</button></div><div class="modal-body"><p style="font-size:13.5px;color:var(--ink-soft);line-height:1.6">O simulador de financiamento é operado pelo próprio banco. Ao continuar, abriremos o site oficial do <b>${nome}</b> em uma nova aba, onde você poderá simular valores, prazos e taxas com segurança.</p><p style="font-size:12px;color:var(--ink-faint);margin-top:12px">A Canopus não coleta seus dados bancários. A simulação acontece diretamente no ambiente do banco.</p></div><div class="modal-foot"><button class="btn ghost" onclick="closeModal()">Cancelar</button><a class="btn go" href="${url}" target="_blank" rel="noopener" onclick="closeModal()">Abrir simulador do ${nome} →</a></div>`);}
 
-/* ===== OBRA (barras + fotos JPG) ===== */
+/* ===== PERSONALIZAÇÃO (escolha de planta + assinatura eletrônica) ===== */
+const PLANTAS=[
+  {id:"original",nome:"Planta Original",tag:"Padrão",desc:"O layout entregue conforme o memorial descritivo, sem modificações.",itens:["2 dormitórios","Cozinha americana","Sala ampla","1 banheiro"],rec:false},
+  {id:"integrada",nome:"Sala Integrada",tag:"Mais popular",desc:"Remoção da parede entre a sala e a cozinha, criando um grande ambiente social integrado.",itens:["Remoção da parede sala/cozinha","Ambiente social ampliado","Ilha de apoio na cozinha","Ideal para quem recebe"],rec:true},
+  {id:"suite",nome:"Suíte Ampliada",tag:"Conforto",desc:"Ampliação do dormitório principal incorporando a área do segundo quarto, criando uma suíte master.",itens:["Suíte master ampliada","Closet integrado","1 dormitório","Mais espaço no quarto principal"],rec:false},
+  {id:"home",nome:"Home Office",tag:"Trabalho",desc:"Divisória de vidro criando um espaço reservado para escritório, sem perder a iluminação natural.",itens:["Espaço home office","Divisória de vidro","Iluminação preservada","2 dormitórios mantidos"],rec:false}
+];
+function renderPersonalizacao(){
+  const u=curUnit;
+  // disponível apenas antes do início da fase de acabamento
+  const acab=u.obra.marcos&&u.obra.marcos.find(m=>m[0]==='Acabamento');
+  const disponivel=u.obra.pct<100 && acab && acab[1]<20;
+  // badge "novo" só quando há personalização disponível e ainda não escolhida
+  const badge=document.getElementById('badge-pers');
+  if(badge)badge.style.display=(disponivel&&!u.personalizacao)?'':'none';
+  if(!u.personalizacao)u.personalizacao=null;
+  if(u.personalizacao){
+    const p=PLANTAS.find(x=>x.id===u.personalizacao.plantaId);
+    document.getElementById('pers-body').innerHTML=`
+      <div class="banner go"><div class="bic">✓</div><div><b>Personalização confirmada e assinada</b><p>Você escolheu a planta <b>${p.nome}</b> em ${u.personalizacao.data}. O contrato foi assinado eletronicamente e enviado ao seu e-mail.</p></div></div>
+      <div class="card" style="margin-top:16px"><div class="sec-head"><b>Sua escolha</b><span class="tag t-go">Assinado</span></div>
+        <div style="padding:18px 20px">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+            <div><div style="font-size:16px;font-weight:800;color:var(--navy);font-family:var(--font-display)">${p.nome}</div><div style="font-size:13px;color:var(--ink-soft);margin-top:3px">${p.desc}</div></div>
+            <div style="text-align:right"><div style="font-size:11px;color:var(--ink-faint)">Personalização</div><div style="font-size:14px;font-weight:700;color:var(--go)">Sem custo adicional</div></div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+            <button class="btn go sm" onclick="baixarContratoPers()"><svg class="i" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg> Baixar contrato assinado</button>
+            <button class="btn ghost sm" onclick="trocarPlanta()">Trocar escolha</button>
+          </div>
+        </div></div>
+      <div class="foot-note">No sistema real, a escolha gera o contrato de personalização, coleta a assinatura eletrônica e abre o workflow para o back-office executar a modificação na obra.</div>`;
+    return;
+  }
+  if(!disponivel){
+    document.getElementById('pers-body').innerHTML=`<div class="card"><div class="empty"><div class="eic"><svg class="i" viewBox="0 0 24 24" style="width:34px;height:34px;color:var(--ink-faint)"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><p>A janela de personalização de planta desta unidade já foi encerrada.<br>As modificações precisam ser definidas antes desta fase da obra.</p><button class="btn ghost" onclick="go('atend')">Falar com o Relacionamento</button></div></div>`;
+    return;
+  }
+  const cards=PLANTAS.map(p=>`
+    <div class="planta-card ${p.rec?'rec':''}" onclick="verPlanta('${p.id}')">
+      ${p.rec?'<div class="planta-rec">Mais popular</div>':''}
+      <div class="planta-visual">${plantaSVG(p.id)}</div>
+      <div class="planta-body">
+        <div class="planta-top"><b>${p.nome}</b><span class="planta-tag">${p.tag}</span></div>
+        <p class="planta-desc">${p.desc}</p>
+        <div class="planta-foot"><span class="planta-custo">Sem custo adicional</span><span class="planta-link">Ver e escolher →</span></div>
+      </div>
+    </div>`).join('');
+  document.getElementById('pers-body').innerHTML=`
+    <div class="pers-intro"><svg class="i" viewBox="0 0 24 24" style="width:20px;height:20px;color:var(--turq-dk)"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4-6.3-4.6L5.7 21.4 8 14 2 9.4h7.6z"/></svg><div><b>Deixe a sua unidade com a sua cara</b><span>Escolha uma das plantas disponíveis. Ao confirmar, geramos o contrato de personalização para você assinar eletronicamente, sem papel e sem e-mail.</span></div></div>
+    <div class="planta-grid">${cards}</div>
+    <div class="foot-note">A personalização é opcional e deve ser escolhida antes do início da fase de acabamento. Valores e disponibilidade de cada modificação são definidos pela Canopus conforme o projeto.</div>`;
+}
+// mini-diagramas SVG das plantas (esquemáticos)
+function plantaSVG(id){
+  const base='<rect x="4" y="4" width="112" height="72" rx="3" fill="#f4f7f9" stroke="#cfdae1" stroke-width="1.5"/>';
+  const layouts={
+    original:'<line x1="60" y1="4" x2="60" y2="40" stroke="#9fb3bf" stroke-width="1.5"/><line x1="60" y1="40" x2="116" y2="40" stroke="#9fb3bf" stroke-width="1.5"/><line x1="40" y1="40" x2="40" y2="76" stroke="#9fb3bf" stroke-width="1.5"/><text x="26" y="26" font-size="7" fill="#5a7183">Quarto</text><text x="80" y="24" font-size="7" fill="#5a7183">Sala</text><text x="80" y="60" font-size="7" fill="#5a7183">Coz.</text>',
+    integrada:'<line x1="60" y1="4" x2="60" y2="30" stroke="#9fb3bf" stroke-width="1.5"/><rect x="62" y="44" width="48" height="10" rx="2" fill="#d7f2ee" stroke="#00b3a7" stroke-width="1"/><text x="26" y="24" font-size="7" fill="#5a7183">Quartos</text><text x="66" y="70" font-size="7" fill="#00796b">Social integrado</text>',
+    suite:'<line x1="70" y1="4" x2="70" y2="40" stroke="#9fb3bf" stroke-width="1.5"/><line x1="70" y1="40" x2="116" y2="40" stroke="#9fb3bf" stroke-width="1.5"/><rect x="8" y="8" width="58" height="30" rx="2" fill="#e5eef7" stroke="#3a7bd5" stroke-width="1"/><text x="18" y="26" font-size="7" fill="#2a5a9a">Suíte ampla</text><text x="82" y="24" font-size="7" fill="#5a7183">Sala</text>',
+    home:'<line x1="60" y1="4" x2="60" y2="40" stroke="#9fb3bf" stroke-width="1.5"/><line x1="88" y1="40" x2="88" y2="76" stroke="#4a90d9" stroke-width="1.5" stroke-dasharray="3 2"/><text x="24" y="26" font-size="7" fill="#5a7183">Quartos</text><text x="66" y="60" font-size="7" fill="#5a7183">Sala</text><text x="92" y="60" font-size="6.5" fill="#2a5a9a">Office</text>'
+  };
+  return `<svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">${base}${layouts[id]||''}</svg>`;
+}
+function verPlanta(id){
+  const p=PLANTAS.find(x=>x.id===id);if(!p)return;
+  openModal(`<div class="modal-head"><div><h3>${p.nome}</h3><p>${p.tag} · sem custo adicional</p></div><button class="x" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">
+    <div class="planta-visual-big">${plantaSVG(id)}</div>
+    <p style="font-size:14px;color:var(--ink-soft);line-height:1.6;margin:14px 0">${p.desc}</p>
+    <span class="am-lab">O que está incluído</span>
+    <ul class="planta-itens">${p.itens.map(it=>`<li>${it}</li>`).join('')}</ul>
+    </div>
+    <div class="modal-foot"><button class="btn ghost" onclick="closeModal()">Voltar</button><button class="btn go" onclick="assinarPersonalizacao('${id}')">Escolher e assinar contrato</button></div>`);
+}
+function assinarPersonalizacao(id){
+  const p=PLANTAS.find(x=>x.id===id);const u=curUnit;
+  openModal(`<div class="modal-head"><div><h3>Contrato de personalização</h3><p>${p.nome} · Unidade ${u.num}</p></div><button class="x" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">
+    <div class="contrato-preview">
+      <div class="cp-head"><b>canopus</b> · Contrato de Personalização de Unidade</div>
+      <p><b>Contratante:</b> ${PROFILE.nome} · CPF ${PROFILE.cpf}</p>
+      <p><b>Unidade:</b> ${u.emp} — ${u.torre} · Unidade ${u.num}</p>
+      <p><b>Personalização escolhida:</b> ${p.nome}</p>
+      <p><b>Descrição:</b> ${p.desc}</p>
+      <p><b>Custo adicional:</b> Sem custo adicional</p>
+      <p style="font-size:11.5px;color:var(--ink-faint);margin-top:10px">As modificações serão executadas conforme o projeto e o memorial descritivo, sem custo adicional para o comprador. Este contrato é firmado eletronicamente e tem validade jurídica conforme a legislação vigente (MP 2.200-2/2001).</p>
+    </div>
+    <label class="assinatura-check"><input type="checkbox" id="ass-aceite"> <span>Li e concordo com os termos do contrato de personalização acima.</span></label>
+    <span class="fieldlab" style="margin-top:12px">Assine digitando seu nome completo</span>
+    <input class="finput" id="ass-nome" placeholder="${PROFILE.nome}">
+    </div>
+    <div class="modal-foot"><button class="btn ghost" onclick="verPlanta('${id}')">Voltar</button><button class="btn go" onclick="confirmarAssinatura('${id}')">Assinar eletronicamente</button></div>`);
+}
+function confirmarAssinatura(id){
+  const aceite=(document.getElementById('ass-aceite')||{}).checked;
+  const nome=((document.getElementById('ass-nome')||{}).value||'').trim();
+  if(!aceite){toast('Marque que você concorda com os termos.');return;}
+  if(nome.length<5){toast('Digite seu nome completo para assinar.');return;}
+  const u=curUnit;u.personalizacao={plantaId:id,data:hojeBR(),assinante:nome};
+  const p=PLANTAS.find(x=>x.id===id);
+  openModal(`<div class="modal-head"><div><h3>Contrato assinado! ✅</h3></div><button class="x" onclick="closeModal()">✕</button></div><div class="modal-body" style="text-align:center"><div class="success-ico">✓</div><div style="font-size:17px;font-weight:800;color:var(--navy)">Personalização confirmada</div><p style="font-size:13.5px;color:var(--ink-soft);margin-top:6px">Você escolheu a planta <b>${p.nome}</b> e assinou o contrato eletronicamente. Enviamos a via assinada para o seu e-mail e abrimos a solicitação para nossa equipe executar a modificação.</p></div><div class="modal-foot"><button class="btn go" onclick="closeModal();renderPersonalizacao()">Concluir</button></div>`);
+  renderPersonalizacao();
+}
+function trocarPlanta(){curUnit.personalizacao=null;renderPersonalizacao();toast('Escolha liberada. Selecione uma nova planta.');}
+function baixarContratoPers(){
+  const u=curUnit;const p=PLANTAS.find(x=>x.id===u.personalizacao.plantaId);
+  const html=`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Contrato de Personalização — ${u.emp} ${u.num}</title><style>body{font-family:Arial,sans-serif;color:#0e2430;max-width:760px;margin:30px auto;padding:0 20px;line-height:1.7}h1{color:#003349;font-size:20px;border-bottom:3px solid #00d2c4;padding-bottom:10px}.meta{font-size:13px;color:#42586a;margin:14px 0}.ass{margin-top:30px;border-top:1px solid #ccc;padding-top:14px;font-size:13px}.selo{display:inline-block;background:#e6f5ee;color:#1f9d6b;padding:4px 12px;border-radius:8px;font-weight:bold;font-size:12px}@media print{body{margin:0}}</style></head>
+  <body><h1>canopus | Contrato de Personalização de Unidade</h1>
+  <div class="meta"><b>Contratante:</b> ${PROFILE.nome} · CPF ${PROFILE.cpf}<br><b>Unidade:</b> ${u.emp} — ${u.torre} · Unidade ${u.num}<br><b>Data:</b> ${u.personalizacao.data}</div>
+  <p><b>Personalização escolhida:</b> ${p.nome}</p><p>${p.desc}</p>
+  <p><b>Itens:</b> ${p.itens.join('; ')}.</p>
+  <p><b>Custo adicional:</b> Sem custo adicional</p>
+  <p style="font-size:12px;color:#666">As modificações serão executadas conforme projeto e memorial descritivo. Contrato firmado eletronicamente com validade jurídica (MP 2.200-2/2001).</p>
+  <div class="ass"><span class="selo">✓ Assinado eletronicamente</span><br><br><b>${u.personalizacao.assinante||PROFILE.nome}</b><br>Assinatura eletrônica · ${u.personalizacao.data}<br>CPF ${PROFILE.cpf}</div>
+  <script>window.onload=function(){setTimeout(function(){window.print&&window.print()},400)}<\/script></body></html>`;
+  downloadHTML(`Contrato_Personalizacao_${u.emp.replace(/ /g,'_')}_${u.num}.html`,html);toast('Contrato baixado! Verifique seus downloads.');
+}
 function renderObra(){
   const u=curUnit,o=u.obra;
   let bars=o.marcos.map(m=>{const cls=m[1]===100?'done':m[1]===0?'zero':'';return `<div class="barrow"><div class="barhead"><b>${m[0]}</b><span class="pct">${m[1]}%</span></div><div class="bartrack"><div class="barfill ${cls}" style="width:${m[1]}%"></div></div></div>`;}).join('');
@@ -1309,9 +1672,10 @@ function baixarDoc(nome){const html=`<!DOCTYPE html><html lang="pt-BR"><head><me
 /* ===== ASSISTÊNCIA ===== */
 function renderAssist(){
   const u=curUnit;
-  const chavesEntregues=u.statusIdx>=5 && u.agend.chaves;
+  const naChaves=STAGES[u.statusIdx].key==='chaves';
+  const chavesEntregues=naChaves && u.agend.chaves;
   if(!chavesEntregues){
-    const msg=u.statusIdx>=5
+    const msg=naChaves
       ? 'Suas chaves já estão liberadas! Agende a retirada em "Minha entrega" para habilitar a assistência técnica.'
       : `A assistência técnica é liberada após a entrega das chaves da sua unidade.<br>Esta unidade ainda está na etapa de ${JMARK[STAGES[u.statusIdx].phase].toLowerCase()}.`;
     document.getElementById('assist-body').innerHTML=`<div class="card"><div class="empty"><div class="eic"><svg class="i" viewBox="0 0 24 24" style="width:34px;height:34px;color:var(--ink-faint)"><path d="M14 7a4 4 0 0 0-5 5l-6 6 2 2 6-6a4 4 0 0 0 5-5l-2 2-2-2 2-2z"/></svg></div><p>${msg}</p><button class="btn ghost" onclick="go('vistoria')">Ver minha entrega</button></div></div>`;return;
@@ -1548,7 +1912,7 @@ function closeModal(){document.getElementById('modal').classList.remove('show');
 let toastTimer;function toast(msg){const t=document.getElementById('toast');document.getElementById('toast-msg').textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3200);}
 
 /* ===== INIT ===== */
-function renderAll(){renderTopbar();buildUnitDrop();renderHome();renderVistoria();renderFinanceiro();renderFinanciamento();renderObra();renderDocs();renderAssist();renderAtendimento();renderComunicados();renderCadastro();renderFaq();}
+function renderAll(){renderTopbar();buildUnitDrop();renderHome();renderVistoria();renderFinanceiro();renderFinanciamento();renderPersonalizacao();renderObra();renderDocs();renderAssist();renderAtendimento();renderComunicados();renderCadastro();renderFaq();}
 function setLogos(){const bl=document.getElementById('brand-logo');if(bl)bl.src=`data:image/png;base64,${LOGO.white}`;const ml=document.getElementById('mob-logo');if(ml)ml.src=`data:image/png;base64,${LOGO.color}`;const lw=document.getElementById('login-logo-white');if(lw)lw.src=`data:image/png;base64,${LOGO.white}`;const lc=document.getElementById('login-logo-color');if(lc)lc.src=`data:image/png;base64,${LOGO.color}`;const gw=document.getElementById('gw-logo');if(gw)gw.src=`data:image/png;base64,${LOGO.white}`;}
 function togglePass(){const inp=document.getElementById('login-pass');const ic=document.getElementById('eye-ic');if(inp.type==='password'){inp.type='text';ic.innerHTML='<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/><line x1="3" y1="3" x2="21" y2="21"/>';}else{inp.type='password';ic.innerHTML='<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>';}}
 function irParaLogin(){closeModal();const g=document.getElementById('gateway-screen');g.classList.add('hide');setTimeout(()=>{g.style.display='none';},450);const cpf=document.getElementById('login-cpf');if(cpf)setTimeout(()=>{try{cpf.focus();}catch(e){}},120);}
