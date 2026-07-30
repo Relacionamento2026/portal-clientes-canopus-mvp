@@ -393,6 +393,16 @@
   .com-body-txt b{font-size:14.5px;font-weight:700;color:var(--navy);display:block}
   .com-body-txt p{font-size:12.5px;color:var(--ink-soft);margin-top:3px;line-height:1.5}
   .com-chev{color:var(--ink-faint);font-size:15px;flex-shrink:0;align-self:center}
+  /* ===== UPLOAD DE DOCUMENTO (REPASSE) ===== */
+  .doc-pend{background:var(--wait-soft);border:1px solid #f0dcae;border-radius:12px;padding:14px 16px;margin-top:12px}
+  .doc-pend-h{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#a06a1e}
+  .doc-pend-p{font-size:12.5px;color:var(--ink-soft);line-height:1.5;margin:8px 0 12px}
+  .doc-enviados{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+  .doc-enviado{font-size:12.5px;color:var(--go);font-weight:600}
+  .doc-enviado span{color:var(--ink-faint);font-weight:400;font-size:11.5px}
+  .doc-drop{display:flex;flex-direction:column;align-items:center;gap:10px;border:2px dashed var(--line);border-radius:12px;padding:26px;cursor:pointer;transition:.15s;text-align:center}
+  .doc-drop:hover{border-color:var(--turq);background:var(--turq-soft)}
+  .doc-drop span{font-size:13px;color:var(--ink-soft)}
   /* ===== COBRANÇA ===== */
   .badge-alert{background:var(--danger)!important;color:#fff!important}
   .cob-demo{background:#0e2430;border-radius:12px;padding:12px 16px;margin-bottom:16px}
@@ -471,6 +481,12 @@
   .bh-tag.atraso{color:var(--danger);background:var(--danger-soft)}
   .boleto-hero.vencido{border-left:3px solid var(--danger);padding-left:14px}
   .bh-rc{font-size:11.5px;color:var(--danger);margin-top:8px;font-weight:500}
+  .bh-encargo{font-size:11.5px;color:var(--ink-faint);margin-top:3px}
+  .cob-breakdown{padding:14px 20px;border-top:1px solid var(--line);margin-top:4px}
+  .cob-breakdown>div{display:flex;justify-content:space-between;font-size:13px;color:var(--ink-soft);padding:4px 0}
+  .cob-breakdown>div b{color:var(--navy)}
+  .cob-breakdown .tot{border-top:1px solid var(--line);margin-top:4px;padding-top:8px;font-weight:700}
+  .cob-breakdown .tot b{color:var(--danger);font-size:16px}
   .bh-actions{display:flex;flex-direction:column;gap:9px;min-width:190px}
   .bh-actions .btn{justify-content:center;padding:9px 16px;font-size:13px}
   @media(max-width:880px){.bh-actions{width:100%}.bh-val{font-size:22px}}
@@ -786,15 +802,15 @@
     </div>
     <ul class="nav" id="nav">
       <li><button data-v="home" class="on"><span class="ic" data-ico="home"></span> Início</button></li>
-      <li class="nav-sec">Minha unidade</li>
-      <li><button data-v="vistoria"><span class="ic" data-ico="key"></span> Minha entrega <span class="badge" id="badge-vist">1</span></button></li>
-      <li><button data-v="obra"><span class="ic" data-ico="build"></span> Evolução da obra</button></li>
-      <li><button data-v="personalizacao"><span class="ic" data-ico="grid"></span> Personalização <span class="badge badge-new" id="badge-pers">novo</span></button></li>
       <li class="nav-sec">Financeiro e documentos</li>
       <li><button data-v="financeiro"><span class="ic" data-ico="money"></span> Financeiro</button></li>
       <li><button data-v="cobranca"><span class="ic" data-ico="alert"></span> Cobrança <span class="badge badge-alert" id="badge-cob" style="display:none">!</span></button></li>
       <li><button data-v="financiamento"><span class="ic" data-ico="bank"></span> Repasse e escritura</button></li>
       <li><button data-v="docs"><span class="ic" data-ico="doc"></span> Documentos</button></li>
+      <li class="nav-sec">Minha unidade</li>
+      <li><button data-v="vistoria"><span class="ic" data-ico="key"></span> Minha entrega <span class="badge" id="badge-vist">1</span></button></li>
+      <li><button data-v="obra"><span class="ic" data-ico="build"></span> Evolução da obra</button></li>
+      <li><button data-v="personalizacao"><span class="ic" data-ico="grid"></span> Personalização <span class="badge badge-new" id="badge-pers">novo</span></button></li>
       <li class="nav-sec">Suporte</li>
       <li><button data-v="assist"><span class="ic" data-ico="wrench"></span> Assistência técnica</button></li>
       <li><button data-v="atend"><span class="ic" data-ico="chat"></span> Atendimento</button></li>
@@ -1040,6 +1056,31 @@ function genParcelas(total,pagas,base,dayOfMonth){
 }
 // dias entre hoje e uma data DD/MM/AAAA
 function diasAte(vencBR){const [d,m,a]=vencBR.split('/').map(Number);const alvo=new Date(a,m-1,d);const hoje=new Date();hoje.setHours(0,0,0,0);return Math.round((alvo-hoje)/86400000);}
+/* ===== MOTOR FINANCEIRO CENTRAL (fonte única de valores) =====
+   Regras: multa 2% + juros de mora 1% ao mês (0,033%/dia) sobre atraso.
+   Antecipação antes do vencimento: desconto pro-rata die proporcional aos dias que faltam. */
+const FIN_RULES={multaPct:0.02, jurosDiaPct:0.01/30, descontoAnualPct:0.12}; // desconto ~1%/mês = 0,0333%/dia
+function calcParcela(val,vencBR){
+  const dias=diasAte(vencBR); // >0 faltam dias, <0 em atraso
+  let encargos=0, desconto=0, tipo='em_dia';
+  if(dias<0){ // em atraso: multa + juros de mora
+    const atraso=-dias;
+    const multa=val*FIN_RULES.multaPct;
+    const juros=val*FIN_RULES.jurosDiaPct*atraso;
+    encargos=Math.round((multa+juros)*100)/100;
+    tipo='atraso';
+  }else if(dias>0){ // antecipação: desconto pro-rata die
+    const descDia=FIN_RULES.descontoAnualPct/360;
+    desconto=Math.round(val*descDia*dias*100)/100;
+    tipo='antecipa';
+  }
+  const efetivo=Math.round((val+encargos-desconto)*100)/100;
+  return {base:val,dias,encargos,desconto,efetivo,tipo,
+    multa:dias<0?Math.round(val*FIN_RULES.multaPct*100)/100:0,
+    juros:dias<0?Math.round(val*FIN_RULES.jurosDiaPct*(-dias)*100)/100:0};
+}
+// soma de encargos/descontos de um conjunto de parcelas na data de hoje
+function calcConjunto(parcelas){let base=0,encargos=0,desconto=0,efetivo=0;parcelas.forEach(p=>{const c=calcParcela(p.val,p.venc);base+=c.base;encargos+=c.encargos;desconto+=c.desconto;efetivo+=c.efetivo;});return {base:Math.round(base*100)/100,encargos:Math.round(encargos*100)/100,desconto:Math.round(desconto*100)/100,efetivo:Math.round(efetivo*100)/100};}
 const money=v=>"R$ "+v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
 
 /* etapas de financiamento (alimentadas pelos analistas) */
@@ -1065,7 +1106,7 @@ const UNITS=[
     vistoria:{status:"liberada",laudos:[]},
     fin:{parcelaProx:"R$ 3.420,00",venceProx:"10/08/2026",diasProx:13,saldo:"R$ 184.900,00",pagas:28,total:48,forma:"Financiamento"},
     parcelas:genParcelas(48,28,3350,10),
-    financ:{banco:"Caixa Econômica Federal",valor:"R$ 420.000,00",stage:3,analista:"Equipe Repasse Canopus",atualizado:"há 2 dias",
+    financ:{banco:"Caixa Econômica Federal",valor:"R$ 420.000,00",stage:3,analista:"Equipe Repasse Canopus",atualizado:"há 2 dias",docPendente:{etapa:3,docs:["Comprovante de renda atualizado","Certidão de estado civil","Comprovante de residência","Declaração de Imposto de Renda","Extrato bancário (3 meses)"],enviados:[]},
       hist:[["Documentação enviada","12/06/2026","A documentação foi validada sem pendências."],["Análise de crédito","19/06/2026","Crédito aprovado pelo banco."],["Avaliação do imóvel","03/07/2026","Engenheiro do banco avaliou a unidade; laudo emitido."]]},
     obra:{pct:100,prev:"Concluída",marcos:[["Fundação",100],["Estrutura",100],["Instalações",100],["Acabamento",100],["Vistoria técnica",100]],
       fotos:[["book:hero_ibira","Fachada finalizada","Julho/2026"],["book:lobby_ibira","Lobby","Julho/2026"],["book:piscina_ibira","Piscina","Junho/2026"],["book:salao_ibira","Salão de festas","Junho/2026"]]},
@@ -1442,15 +1483,33 @@ function renderCobranca(){
 }
 function setCobranca(status){
   const u=curUnit;
-  if(status==='em_dia')u.cobranca={status:'em_dia',atraso:0,valorAtraso:0,parcelasAtraso:[],processo:null};
-  else if(status==='em_atraso')u.cobranca={status:'em_atraso',atraso:47,valorAtraso:11840,parcelasAtraso:[{n:"27/48",mes:"abr/2026",val:3820},{n:"28/48",mes:"mai/2026",val:3910},{n:"29/48",mes:"jun/2026",val:4110}],processo:null};
-  else u.cobranca={status:'judicial',atraso:180,valorAtraso:28400,parcelasAtraso:[],processo:{numero:"1023456-78.2026.8.26.0100",vara:"12ª Vara Cível de São Paulo",fase:"Citação",data:"12/05/2026",advogado:"Dr. Ricardo Menezes · Jurídico Canopus"}};
+  if(status==='em_dia'){u.cobranca={status:'em_dia',atraso:0,parcelasAtraso:[],processo:null};}
+  else if(status==='em_atraso'){
+    // gera 3 parcelas realmente vencidas (datas no passado), com encargos calculados pelo motor
+    const hoje=new Date();const atrasos=[75,45,15];
+    const parcAtraso=atrasos.map((dd,i)=>{const d=new Date(hoje.getFullYear(),hoje.getMonth(),hoje.getDate()-dd);
+      const venc=`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+      const base=3800+i*150;return {n:`${25+i}/48`,mes:`${meses[d.getMonth()]}/${d.getFullYear()}`,venc,val:base};});
+    u.cobranca={status:'em_atraso',parcelasAtraso:parcAtraso,processo:null};
+  }else{
+    const hoje=new Date();const atrasos=[210,180,150,120];
+    const parcAtraso=atrasos.map((dd,i)=>{const d=new Date(hoje.getFullYear(),hoje.getMonth(),hoje.getDate()-dd);
+      const venc=`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+      const base=3800+i*150;return {n:`${21+i}/48`,mes:`${meses[d.getMonth()]}/${d.getFullYear()}`,venc,val:base};});
+    u.cobranca={status:'judicial',parcelasAtraso:parcAtraso,processo:{numero:"1023456-78.2026.8.26.0100",vara:"12ª Vara Cível de São Paulo",fase:"Citação",data:"12/05/2026",advogado:"Dr. Ricardo Menezes · Jurídico Canopus"}};
+  }
   renderCobranca();renderHome();
 }
+// valor total em atraso, calculado pelo motor (base + juros + multa) na data de hoje
+function cobrancaTotal(c){if(!c||!c.parcelasAtraso||!c.parcelasAtraso.length)return {base:0,encargos:0,efetivo:0,maxAtraso:0};const r=calcConjunto(c.parcelasAtraso);let maxAtraso=0;c.parcelasAtraso.forEach(p=>{const dias=-diasAte(p.venc);if(dias>maxAtraso)maxAtraso=dias;});return {...r,maxAtraso};}
 function renderCobrancaAtraso(u,c){
-  const parc=c.parcelasAtraso.map(p=>`<div class="list-row"><div class="ric" style="background:var(--danger-soft)"><svg class="i" viewBox="0 0 24 24" style="color:var(--danger)">${ICONS.money}</svg></div><div class="rt"><b>Parcela ${p.n}</b><span>${p.mes} · vencida</span></div><div class="rv"><b>${money(p.val)}</b></div></div>`).join('');
-  return `<div class="cob-alert danger"><div class="ca-ic">!</div><div class="ca-txt"><b>Você tem ${c.parcelasAtraso.length} parcelas em atraso</b><p>Valor total atualizado (com juros e multa): <b>${money(c.valorAtraso)}</b> · ${c.atraso} dias de atraso.</p></div></div>
-    <div class="card" style="margin:16px 0"><div class="sec-head"><b>Parcelas em atraso</b><span class="tag t-danger">${c.parcelasAtraso.length}</span></div>${parc}</div>
+  const t=cobrancaTotal(c);
+  const parc=c.parcelasAtraso.map(p=>{const cp=calcParcela(p.val,p.venc);const atraso=-cp.dias;
+    return `<div class="list-row"><div class="ric" style="background:var(--danger-soft)"><svg class="i" viewBox="0 0 24 24" style="color:var(--danger)">${ICONS.money}</svg></div><div class="rt"><b>Parcela ${p.n}</b><span>${p.mes} · vencida há ${atraso} dias · base ${money(cp.base)} + encargos ${money(cp.encargos)}</span></div><div class="rv"><b>${money(cp.efetivo)}</b></div></div>`;}).join('');
+  return `<div class="cob-alert danger"><div class="ca-ic">!</div><div class="ca-txt"><b>Você tem ${c.parcelasAtraso.length} parcelas em atraso</b><p>Valor total atualizado (com juros e multa): <b>${money(t.efetivo)}</b> · atraso de até ${t.maxAtraso} dias.</p></div></div>
+    <div class="card" style="margin:16px 0"><div class="sec-head"><b>Parcelas em atraso</b><span class="tag t-danger">${c.parcelasAtraso.length}</span></div>${parc}
+      <div class="cob-breakdown"><div><span>Valor original</span><b>${money(t.base)}</b></div><div><span>Juros + multa</span><b>${money(t.encargos)}</b></div><div class="tot"><span>Total atualizado</span><b>${money(t.efetivo)}</b></div></div>
+    </div>
     <div class="reneg-cta"><div><b>Regularize com uma renegociação</b><span>Dê uma entrada de 40% e parcele o restante em até 12x. Simule e feche o acordo agora, pelo portal.</span></div><button class="btn go" onclick="abrirRenegociacao()"><svg class="i" viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M3 12a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3L21 8M21 12a9 9 0 0 1-9 9 9 9 0 0 1-6-2.3L3 16"/></svg> Renegociar minha dívida</button></div>
     <div class="foot-note">Precisa de ajuda? Fale com a equipe de cobrança pelo 0800 000 0000 (opção 3) ou abra um atendimento.</div>`;
 }
@@ -1463,7 +1522,7 @@ function renderCobrancaJudicial(u,c){
         <div class="proc-item"><span class="am-lab">Vara</span><b>${p.vara}</b></div>
         <div class="proc-item"><span class="am-lab">Fase atual</span><b>${p.fase}</b></div>
         <div class="proc-item"><span class="am-lab">Distribuído em</span><b>${p.data}</b></div>
-        <div class="proc-item"><span class="am-lab">Valor atualizado</span><b>${money(c.valorAtraso)}</b></div>
+        <div class="proc-item"><span class="am-lab">Valor atualizado</span><b>${money(cobrancaTotal(c).efetivo)}</b></div>
         <div class="proc-item"><span class="am-lab">Responsável</span><b>${p.advogado}</b></div>
       </div>
     </div>
@@ -1509,7 +1568,7 @@ function renegBloqueada(){
 }
 function abrirRenegociacao(){if(renegBloqueada())return;renegPlano=null;renderRenegModal();}
 function renderRenegModal(){
-  const u=curUnit;const c=u.cobranca;const total=c.valorAtraso;
+  const u=curUnit;const c=u.cobranca;const total=cobrancaTotal(c).efetivo;
   const entrada=Math.round(total*0.40);const restante=total-entrada;
   const opts=[3,6,12].map(n=>{const vp=Math.round(restante/n);const sel=renegPlano===n;
     return `<div class="reneg-opt ${sel?'on':''}" onclick="renegPlano=${n};renderRenegModal()"><div class="ro-check">✓</div><div style="flex:1"><b>${n}x de ${money(vp)}</b><span>Restante em ${n} parcelas mensais</span></div></div>`;}).join('');
@@ -1526,7 +1585,7 @@ function renderRenegModal(){
 function confirmarReneg(){
   if(renegBloqueada())return;
   if(!renegPlano){toast('Escolha em quantas vezes parcelar.');return;}
-  const u=curUnit;const c=u.cobranca;const total=c.valorAtraso;
+  const u=curUnit;const c=u.cobranca;const total=cobrancaTotal(c).efetivo;
   const entrada=Math.round(total*0.40);const restante=total-entrada;const vp=Math.round(restante/renegPlano);
   const hoje=new Date();const venc=new Date(hoje.getFullYear(),hoje.getMonth(),hoje.getDate()+5);
   const vencBR=`${String(venc.getDate()).padStart(2,'0')}/${String(venc.getMonth()+1).padStart(2,'0')}/${venc.getFullYear()}`;
@@ -1549,7 +1608,7 @@ function fecharReneg(){
   const nome=((document.getElementById('reneg-nome')||{}).value||'').trim();
   if(!aceite){toast('Aceite os termos do acordo.');return;}
   if(nome.length<5){toast('Digite seu nome completo para assinar.');return;}
-  const u=curUnit;const c=u.cobranca;const total=c.valorAtraso;const entrada=Math.round(total*0.40);
+  const u=curUnit;const c=u.cobranca;const total=cobrancaTotal(c).efetivo;const entrada=Math.round(total*0.40);
   const hoje=new Date();const venc=new Date(hoje.getFullYear(),hoje.getMonth(),hoje.getDate()+5);
   const vencBR=`${String(venc.getDate()).padStart(2,'0')}/${String(venc.getMonth()+1).padStart(2,'0')}/${venc.getFullYear()}`;
   // gera boleto da entrada
@@ -1580,10 +1639,13 @@ function renderFinanceiro(){
       </div>
     </div>`;
   const aberto=u.parcelas.find(p=>p.situ==='aberto');
+  const cpAberto=aberto?calcParcela(aberto.val,aberto.venc):null;
   const diasAtrasoB=aberto?-diasAte(aberto.venc):0;
   const vencidoBloqueado=diasAtrasoB>3;
   const vencLabel=diasAtrasoB>0?`Vencido há ${diasAtrasoB} dia${diasAtrasoB>1?'s':''}`:`Vence em ${u.fin.diasProx} dias`;
-  document.getElementById('fin-boleto-card').innerHTML=aberto?`<div class="boleto-hero ${diasAtrasoB>0?'vencido':''}"><div class="bh-left"><div class="bh-tag ${diasAtrasoB>0?'atraso':''}">${ico('money','bh-ic')} ${diasAtrasoB>0?'Boleto vencido':'Boleto em aberto'}</div><div class="bh-val">${money(aberto.val)}</div><div class="bh-meta">Parcela ${aberto.n} · ${aberto.mes} · vence ${aberto.venc}</div><div class="bh-venc ${diasAtrasoB>0?'atraso':''}">${vencLabel}</div>${vencidoBloqueado?'<div class="bh-rc">2ª via indisponível pelo portal — fale com a Recuperação de Crédito.</div>':''}</div><div class="bh-actions"><button class="btn go" onclick="baixarBoleto()"><svg class="i" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg> ${vencidoBloqueado?'Ver orientação':'Baixar boleto'}</button>${!vencidoBloqueado?'<button class="btn ghost" onclick="copiarLinha()">Copiar código de barras</button>':''}</div></div>`:'';
+  const valExib=cpAberto?cpAberto.efetivo:(aberto?aberto.val:0);
+  const encargoLine=cpAberto&&cpAberto.encargos>0?`<div class="bh-encargo">Valor original ${money(cpAberto.base)} + juros/multa ${money(cpAberto.encargos)}</div>`:'';
+  document.getElementById('fin-boleto-card').innerHTML=aberto?`<div class="boleto-hero ${diasAtrasoB>0?'vencido':''}"><div class="bh-left"><div class="bh-tag ${diasAtrasoB>0?'atraso':''}">${ico('money','bh-ic')} ${diasAtrasoB>0?'Boleto vencido':'Boleto em aberto'}</div><div class="bh-val">${money(valExib)}</div>${encargoLine}<div class="bh-meta">Parcela ${aberto.n} · ${aberto.mes} · vence ${aberto.venc}</div><div class="bh-venc ${diasAtrasoB>0?'atraso':''}">${vencLabel}</div>${vencidoBloqueado?'<div class="bh-rc">2ª via indisponível pelo portal — fale com a Recuperação de Crédito.</div>':''}</div><div class="bh-actions"><button class="btn go" onclick="baixarBoleto()"><svg class="i" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg> ${vencidoBloqueado?'Ver orientação':'Baixar boleto'}</button>${!vencidoBloqueado?'<button class="btn ghost" onclick="copiarLinha()">Copiar código de barras</button>':''}</div></div>`:'';
   renderFinRows();
 }
 function renderFinRows(){const u=curUnit;let rows=u.parcelas;if(finFilter==='pagas')rows=rows.filter(p=>p.situ==='paga');if(finFilter==='aberto')rows=rows.filter(p=>p.situ==='aberto'||p.situ==='futura');
@@ -1643,7 +1705,7 @@ function abrirAntecipacao(){
 function setAntModo(m){antModo=m;renderAntecipacaoModal();}
 function renderAntecipacaoModal(){
   const u=curUnit;const futuras=u.parcelas.filter(p=>p.situ==='futura').slice(0,12);
-  const CORR=0.008;
+
   const venctoBoleto=ultimoDiaMes();
   const hoje=new Date();const hojeISO=`${hoje.getFullYear()}-${String(hoje.getMonth()+1).padStart(2,'0')}-${String(hoje.getDate()).padStart(2,'0')}`;
   const ult=new Date(hoje.getFullYear(),hoje.getMonth()+1,0);const ultISO=`${ult.getFullYear()}-${String(ult.getMonth()+1).padStart(2,'0')}-${String(ult.getDate()).padStart(2,'0')}`;
@@ -1654,13 +1716,12 @@ function renderAntecipacaoModal(){
   const tabs=`<div class="ant-tabs"><button class="ant-tab ${antModo==='parcelas'?'on':''}" onclick="setAntModo('parcelas')">Antecipar parcelas</button><button class="ant-tab ${antModo==='parcial'?'on':''}" onclick="setAntModo('parcial')">Amortização parcial</button></div>`;
   let body='';
   if(antModo==='parcelas'){
-    let linhas=futuras.map((p,i)=>{const idx=u.parcelas.indexOf(p);const sel=antSel.has(idx);
-      return `<div class="antline"><div class="antcheck ${sel?'on':''}" onclick="toggleAnt(${idx})">✓</div><div style="flex:1"><b style="font-size:13.5px;color:var(--navy)">Parcela ${p.n}</b><div style="font-size:12px;color:var(--ink-faint)">${p.mes} · venc. ${p.venc}</div></div><div style="text-align:right;font-size:13px"><div style="color:var(--ink-faint);text-decoration:line-through;font-size:11.5px">${money(p.val)}</div><div style="font-weight:700;color:var(--navy)">${money(Math.round(p.val*(1+CORR)))}</div></div></div>`;}).join('');
-    let orig=0,atual=0;antSel.forEach(idx=>{orig+=u.parcelas[idx].val;atual+=Math.round(u.parcelas[idx].val*(1+CORR));});
-    const corrTot=atual-orig;
+    let linhas=futuras.map((p,i)=>{const idx=u.parcelas.indexOf(p);const sel=antSel.has(idx);const cp=calcParcela(p.val,p.venc);
+      return `<div class="antline"><div class="antcheck ${sel?'on':''}" onclick="toggleAnt(${idx})">✓</div><div style="flex:1"><b style="font-size:13.5px;color:var(--navy)">Parcela ${p.n}</b><div style="font-size:12px;color:var(--ink-faint)">${p.mes} · venc. ${p.venc}${cp.desconto>0?` · desconto ${money(cp.desconto)}`:''}</div></div><div style="text-align:right;font-size:13px"><div style="color:var(--ink-faint);text-decoration:line-through;font-size:11.5px">${money(p.val)}</div><div style="font-weight:700;color:var(--go)">${money(cp.efetivo)}</div></div></div>`;}).join('');
+    let orig=0,efet=0,desc=0;antSel.forEach(idx=>{const p=u.parcelas[idx];const cp=calcParcela(p.val,p.venc);orig+=cp.base;efet+=cp.efetivo;desc+=cp.desconto;});
     body=`<span class="fieldlab">Parcelas a antecipar</span>
       <div style="max-height:190px;overflow-y:auto;margin-bottom:16px">${linhas}</div>
-      <div class="ant-tot"><div><div class="att-lab">Total da antecipação</div><div style="font-size:11.5px;color:var(--ink-soft);margin-top:2px">${antSel.size} parcela(s) · correção ${money(corrTot)}</div></div><div class="att-val">${money(atual)}</div></div>`;
+      <div class="ant-tot"><div><div class="att-lab">Total com desconto</div><div style="font-size:11.5px;color:var(--go);margin-top:2px">${antSel.size} parcela(s) · desconto pro-rata ${money(desc)}</div></div><div class="att-val">${money(efet)}</div></div>`;
   }else{
     // amortização parcial por valor
     const alvo=ehFin?'saldo destinado ao financiamento':'saldo devedor';
@@ -1698,7 +1759,7 @@ function atualizaParcial(rerender){
 function toggleAnt(idx){if(antSel.has(idx))antSel.delete(idx);else antSel.add(idx);renderAntecipacaoModal();}
 function fmtDataBR(iso){if(!iso)return '';const [a,m,d]=iso.split('-');return `${d}/${m}/${a}`;}
 function confirmarAntecipacao(){
-  const u=curUnit;const CORR=0.008;
+  const u=curUnit;
   if(!antVenc){toast('Escolha a data de vencimento do boleto.');return;}
   if(antModo==='parcial'){
     const saldoNum=parseFloat(u.fin.saldo.replace(/[^\d,]/g,'').replace(',','.'));
@@ -1721,19 +1782,18 @@ function confirmarAntecipacao(){
   }
   // modo parcelas
   if(!antSel.size){toast('Selecione ao menos uma parcela.');return;}
-  let orig=0,atual=0;const nums=[];
-  antSel.forEach(idx=>{const p=u.parcelas[idx];orig+=p.val;atual+=Math.round(p.val*(1+CORR));nums.push(p.n);});
-  const corrTot=atual-orig;
+  let orig=0,atual=0,desc=0;const nums=[];
+  antSel.forEach(idx=>{const p=u.parcelas[idx];const cp=calcParcela(p.val,p.venc);orig+=cp.base;atual+=cp.efetivo;desc+=cp.desconto;nums.push(p.n);});
   openModal(`<div class="modal-head"><div><h3>Confirmar antecipação</h3><p>Revise antes de gerar o boleto</p></div><button class="x" onclick="closeModal()">✕</button></div>
     <div class="modal-body">
     <div class="confirm-box">
       <div class="cf-row"><span>Parcelas</span><b>${nums.length} parcela(s) — nº ${nums.join(', ')}</b></div>
       <div class="cf-row"><span>Valor original</span><b>${money(orig)}</b></div>
-      <div class="cf-row"><span>Correção monetária</span><b>${money(corrTot)}</b></div>
+      <div class="cf-row"><span>Desconto pro-rata die</span><b>− ${money(desc)}</b></div>
       <div class="cf-row"><span>Vencimento do boleto</span><b>${fmtDataBR(antVenc)}</b></div>
       <div class="cf-row total"><span>Total a pagar</span><b>${money(atual)}</b></div>
     </div>
-    <div class="pa-info" style="margin-top:16px"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v.5M12 11v5"/></svg><span>Ao confirmar, o boleto de antecipação será gerado com o vencimento escolhido. Você tem certeza de que deseja seguir com a antecipação?</span></div></div>
+    <div class="pa-info" style="margin-top:16px"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v.5M12 11v5"/></svg><span>O desconto é proporcional aos dias que faltam até o vencimento de cada parcela. Deseja seguir com a antecipação?</span></div></div>
     <div class="modal-foot"><button class="btn ghost" onclick="renderAntecipacaoModal()">Voltar</button><button class="btn go" onclick="gerarBoletoAntecipacao()">Confirmar e gerar boleto</button></div>`);
 }
 function gerarBoletoParcial(valor){
@@ -1754,8 +1814,8 @@ function gerarBoletoGenerico(descricao,valor,venc,fileprefix){
   toast('Boleto gerado! Verifique seus downloads.');
 }
 function gerarBoletoAntecipacao(){
-  const u=curUnit;const CORR=0.008;let atual=0;const parcelas=[];
-  antSel.forEach(idx=>{const p=u.parcelas[idx];const v=Math.round(p.val*(1+CORR));atual+=v;parcelas.push({n:p.n,mes:p.mes,val:v});});
+  const u=curUnit;let atual=0;const parcelas=[];
+  antSel.forEach(idx=>{const p=u.parcelas[idx];const cp=calcParcela(p.val,p.venc);atual+=cp.efetivo;parcelas.push({n:p.n,mes:p.mes,val:cp.efetivo});});
   const venc=antVenc?fmtDataBR(antVenc):ultimoDiaMes();
   const linha="34191.79001 01043.510047 91020.150008 4 98110000"+String(Math.round(atual*100)).padStart(6,'0');
   const linhasTab=parcelas.map(p=>`<tr><td>${p.n}</td><td>${p.mes}</td><td style="text-align:right">${money(p.val)}</td></tr>`).join('');
@@ -1796,8 +1856,18 @@ function renderFinanciamento(){
   // etapas do processo (financiamento OU escrituração)
   const stage=typeof u.financ.stage==='number'&&u.financ.stage>=0?u.financ.stage:0;
   const totalEt=via.etapas.length;const pct=Math.round(stage/(totalEt-1)*100);
+  const docP=u.financ.docPendente;
   const journey=via.etapas.map((e,i)=>{const cls=i<stage?'done':i===stage?'now':'future';const mk=i<stage?'✓':(i+1);
-    return `<div class="jstep ${cls}"><div class="jline"></div><div class="jmark">${mk}</div><div class="jbody">${i===stage?'<div class="jnow-badge">Etapa atual</div>':''}<b>${e[0]}</b>${i===stage?`<p>${e[1]}</p>`:''}</div></div>`;}).join('');
+    let up='';
+    if(i===stage && docP && docP.etapa===stage){
+      const pendentes=docP.docs.filter(d=>!docP.enviados.includes(d));
+      const enviadosHtml=docP.enviados.length?`<div class="doc-enviados">${docP.enviados.map(d=>`<div class="doc-enviado">✓ ${d} <span>enviado ao Multivista</span></div>`).join('')}</div>`:'';
+      up=`<div class="doc-pend"><div class="doc-pend-h"><svg class="i" viewBox="0 0 24 24" style="width:16px;height:16px;color:var(--wait)"><path d="M12 2L2 20h20L12 2z"/><path d="M12 9v5M12 17v.5"/></svg> ${pendentes.length?'Documentação pendente':'Documentos enviados'}</div>
+        ${pendentes.length?`<p class="doc-pend-p">Falta enviar documentação para esta etapa avançar. Anexe o documento e selecione qual é — ele vai direto para o Multivista.</p>
+        <button class="btn go sm" onclick="abrirUploadDoc()"><svg class="i" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg> Enviar documento</button>`:'<p class="doc-pend-p">Todos os documentos desta etapa foram enviados e estão em análise.</p>'}
+        ${enviadosHtml}</div>`;
+    }
+    return `<div class="jstep ${cls}"><div class="jline"></div><div class="jmark">${mk}</div><div class="jbody">${i===stage?'<div class="jnow-badge">Etapa atual</div>':''}<b>${e[0]}</b>${i===stage?`<p>${e[1]}</p>`:''}${up}</div></div>`;}).join('');
   // simulador de bancos (só para financiamento)
   let simSection='';
   if(ehFin){
@@ -1816,6 +1886,30 @@ function renderFinanciamento(){
     <div class="foot-note">As etapas são alimentadas pela equipe de Repasse da Canopus. Em caso de pendência, você é avisado por WhatsApp e e-mail.</div>`;
 }
 function abrirSimulador(url,nome){openModal(`<div class="modal-head"><div><h3>Simular no ${nome}</h3><p>Você será direcionado ao simulador oficial do banco</p></div><button class="x" onclick="closeModal()">✕</button></div><div class="modal-body"><p style="font-size:13.5px;color:var(--ink-soft);line-height:1.6">O simulador de financiamento é operado pelo próprio banco. Ao continuar, abriremos o site oficial do <b>${nome}</b> em uma nova aba, onde você poderá simular valores, prazos e taxas com segurança.</p><p style="font-size:12px;color:var(--ink-faint);margin-top:12px">A Canopus não coleta seus dados bancários. A simulação acontece diretamente no ambiente do banco.</p></div><div class="modal-foot"><button class="btn ghost" onclick="closeModal()">Cancelar</button><a class="btn go" href="${url}" target="_blank" rel="noopener" onclick="closeModal()">Abrir simulador do ${nome} →</a></div>`);}
+function abrirUploadDoc(){
+  const u=curUnit;const docP=u.financ.docPendente;if(!docP)return;
+  const pendentes=docP.docs.filter(d=>!docP.enviados.includes(d));
+  openModal(`<div class="modal-head"><div><h3>Enviar documento</h3><p>O arquivo vai direto para o Multivista</p></div><button class="x" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">
+    <span class="fieldlab">Qual documento você está enviando?</span>
+    <select class="finput" id="doc-tipo" style="margin-bottom:16px">${pendentes.map(d=>`<option>${d}</option>`).join('')}</select>
+    <span class="fieldlab">Arquivo</span>
+    <label class="doc-drop"><input type="file" id="doc-file" style="display:none" onchange="docFileSel(this)"><svg class="i" viewBox="0 0 24 24" style="width:26px;height:26px;color:var(--turq-dk)"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg><span id="doc-fname">Clique para selecionar (PDF, JPG ou PNG)</span></label>
+    <p style="font-size:11.5px;color:var(--ink-faint);margin-top:12px">O documento é enviado com segurança e registrado no Multivista para análise do time de Repasse.</p></div>
+    <div class="modal-foot"><button class="btn ghost" onclick="closeModal()">Cancelar</button><button class="btn go" onclick="enviarDoc()">Enviar ao Multivista</button></div>`);
+}
+let docFileName="";
+function docFileSel(inp){docFileName=inp.files&&inp.files[0]?inp.files[0].name:"";const el=document.getElementById('doc-fname');if(el)el.textContent=docFileName||'Clique para selecionar (PDF, JPG ou PNG)';}
+function enviarDoc(){
+  const u=curUnit;const docP=u.financ.docPendente;
+  const tipo=(document.getElementById('doc-tipo')||{}).value||'';
+  if(!docFileName){toast('Selecione um arquivo para enviar.');return;}
+  if(!tipo){toast('Selecione qual documento está enviando.');return;}
+  docP.enviados.push(tipo);docFileName="";
+  const restantes=docP.docs.filter(d=>!docP.enviados.includes(d)).length;
+  openModal(`<div class="modal-head"><div><h3>Documento enviado ✅</h3></div><button class="x" onclick="closeModal()">✕</button></div><div class="modal-body" style="text-align:center"><div class="success-ico">✓</div><div style="font-size:16px;font-weight:800;color:var(--navy)">${tipo}</div><p style="font-size:13.5px;color:var(--ink-soft);margin-top:6px">Seu documento foi enviado e registrado no Multivista. Nosso time de Repasse fará a análise. ${restantes?`Ainda faltam ${restantes} documento(s).`:'Todos os documentos desta etapa foram enviados!'}</p></div><div class="modal-foot">${restantes?'<button class="btn go" onclick="abrirUploadDoc()">Enviar outro</button>':'<button class="btn go" onclick="closeModal()">Concluir</button>'}</div>`);
+  renderFinanciamento();
+}
 
 /* ===== PERSONALIZAÇÃO (escolha de planta + assinatura eletrônica) ===== */
 const PLANTAS=[
